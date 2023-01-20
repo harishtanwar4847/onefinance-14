@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.workflow_state == \"Vendor Created\"",
+ "creation": "2023-01-19 11:36:01.431115",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Vendor",
+ "enabled": 1,
+ "event": "Value Change",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Hi {{doc.company_name}},<br><br>\n\nGreetings from 1 finance,<br><br>\n\nYour vendor registration is completed.",
+ "modified": "2023-01-19 12:12:46.614701",
+ "modified_by": "Administrator",
+ "module": "OneFinance",
+ "name": "Your vendor registration is completed",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "email_address"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Your vendor registration is completed",
+ "value_changed": "workflow_state"
+}

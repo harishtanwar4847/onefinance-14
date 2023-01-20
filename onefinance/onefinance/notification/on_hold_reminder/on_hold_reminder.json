@@ -1,0 +1,28 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "",
+ "creation": "2023-01-19 11:02:19.374894",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Purchase Invoice",
+ "enabled": 1,
+ "event": "Custom",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "The below-mention payment approval is being kept on hold. Request you to take the required action.\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" align=\"\">\n<th>S. No.</th>\n<th>Purchase Invoice ID</th>\n<th>Party Name</th>\n<th>Amount</th>\n<th>Description</th>\n{% for j in doc.leads %}\n<tr>\n<td>{{loop.index}}</td>\n<td>{{j[0]}}</td>\n<td>{{j[1]}}</td>\n<td>{% set var = frappe.get_doc(\"Purchase Invoice\",j[0]) %} {% for item in var.get(\"items\") %} {{item.amount}} {% endfor %}</td>\n<td>{% set var = frappe.get_doc(\"Purchase Invoice\",j[0]) %} {% for item in var.get(\"items\") %} {{item.description}} {% endfor %}</td>\n</tr>\n{% endfor %}\n</table><br><br>\n\nThe link for approval of payment is {{frappe.get_url()}}/app/purchase-invoice<br>\nIn case of any queries, you can contact below.<br>\nEmail: accounts@1finance.co.in<br><br>",
+ "modified": "2023-01-19 12:13:35.221330",
+ "modified_by": "Administrator",
+ "module": "OneFinance",
+ "name": "On Hold Reminder",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Exco"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "On Hold Reminder"
+}

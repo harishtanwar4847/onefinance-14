@@ -1,0 +1,27 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "creation": "2023-01-18 18:16:14.906936",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Email OTP Verification",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Hello Vendor,<br><br>\n\nPlease find your OTP for Vendor Registration with 1 Finance {{ doc.otp }} .<br><br>\n\nYou can <a href=\"{{frappe.utils.get_url('/email-otp-verification?new=1&email={}&otp={}'.format(doc.email,doc.otp))}}\">click here</a> to Verify Your Email!",
+ "modified": "2023-01-19 15:43:11.882855",
+ "modified_by": "Administrator",
+ "module": "OneFinance",
+ "name": "Here is Your OTP for Vendor Registration",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Here is Your OTP for Vendor Registration"
+}

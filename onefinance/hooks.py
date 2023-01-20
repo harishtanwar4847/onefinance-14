@@ -29,10 +29,10 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
-# doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
-# doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
+doctype_js = {
+	"Purchase Invoice" : "public/js/purchase_invoice.js",
+	"Cost Center" : "public/js/cost_center.js"
+	}
 
 # Home Pages
 # ----------
@@ -102,13 +102,19 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# }
+doc_events = {
+ 	"Payment Entry": {
+ 		"on_submit": "onefinance.utils.on_submit",
+# 		"on_cancel": "method",
+# 		"on_trash": "method"
+	},
+	"Vendor": {
+		"on_update": "onefinance.utils.on_update_vendor"
+	},
+	"Purchase Invoice":{
+		"before_save":"onefinance.utils.on_update_purchase_invoice"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -139,9 +145,10 @@ app_license = "MIT"
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "onefinance.event.get_events"
-# }
+override_whitelisted_methods = {
+	"frappe.website.doctype.web_form.web_form.accept": "onefinance.web_form.accept",
+	"frappe.workflow.doctype.workflow_action.workflow_action.confirm_action" : "onefinance.confirm_action_custom"
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,

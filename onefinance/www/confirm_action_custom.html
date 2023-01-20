@@ -1,0 +1,48 @@
+{% extends "frappe/www/message.html" %}
+{% block message_body %}
+  <p>
+    {{ _("Please confirm your action to {0} this document.").format(action) }}
+  </p>
+  {% if alert_doc_change %}
+  <p>
+    <b>{{ _("Note:")}}</b> {{ _("This document has been modified after the email was sent.")}}
+  </p>
+  {% endif %}
+  {% if action == "Hold" %}
+  <form action="/api/method/onefinance.confirm_action_custom">
+    <label for="fname">Reason for Hold:</label>
+    <input type="text" name="hold"><br><br>
+    <label for="fname">Release Date:</label><br>
+    <input type="date" name="date"><br><br>
+    <input type="hidden" name="doctype" value="{{frappe.form_dict.doctype|string}}">
+    <input type="hidden" name="docname" value="{{frappe.form_dict.docname|string}}">
+    <input type="hidden" name="action" value="{{frappe.form_dict.action}}">
+    <input type="hidden" name="user" value="{{frappe.form_dict.user}}">
+    <input style = "color: white; border : whitesmoke; border-radius: 5px; height:40px; width:70px; background-color: #2490EF;" type="submit" value={{action}}>&emsp;
+    <a style = "margin-top : -3px;" href="/" class="btn btn-secondary btn-action">Cancel</a><br><br>
+  </form>
+  {% endif %}
+  {% if action == "Reject" %}
+  <form action="/api/method/onefinance.confirm_action_custom">
+    <label for="fname">Reason for Reject:</label>
+    <input type="text" name="reject"><br><br>
+    <input type="hidden" name="doctype" value="{{frappe.form_dict.doctype|string}}">
+    <input type="hidden" name="docname" value="{{frappe.form_dict.docname|string}}">
+    <input type="hidden" name="action" value="{{frappe.form_dict.action}}">
+    <input type="hidden" name="user" value="{{frappe.form_dict.user}}">
+    <input style = "color: white; border : whitesmoke; border-radius: 5px; height:40px; width:70px; background-color: #2490EF;" type="submit" value={{action}}>&emsp;
+    <a style = "margin-top : -3px;" href="/" class="btn btn-secondary btn-action">Cancel</a><br><br>
+  </form>
+  {% endif %}
+  {% if action == "Approve" or action == "Reopen" or action == "Submit" %}
+  <form action="/api/method/onefinance.confirm_action_custom">
+    <input type="hidden" name="doctype" value="{{frappe.form_dict.doctype|string}}">
+    <input type="hidden" name="docname" value="{{frappe.form_dict.docname|string}}">
+    <input type="hidden" name="action" value="{{frappe.form_dict.action}}">
+    <input type="hidden" name="user" value="{{frappe.form_dict.user}}">
+    <input style = "color: white; border : whitesmoke; border-radius: 5px; height:40px; width:70px; background-color: #2490EF;" type="submit" value={{action}}>&emsp;
+    <a style = "margin-top : -3px;" href="/" class="btn btn-secondary btn-action">Cancel</a><br><br>
+  </form>
+  {% endif %}
+  <!-- <a href="{{ action_link }}" class="btn btn-primary btn-action">{{ action }}</a> -->
+{% endblock %}

@@ -1,0 +1,274 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2023-01-17 17:54:25.577398",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company_name",
+  "address",
+  "country",
+  "state",
+  "city",
+  "postal_code",
+  "contact_person_name",
+  "contact_person_designation",
+  "landline_number",
+  "mobile_number",
+  "website",
+  "email_address",
+  "pan_number",
+  "pan_card_copy",
+  "column_break_15",
+  "gst_status",
+  "gst_number",
+  "gst_registration_copy",
+  "declaration_of_gst_non_enrollment",
+  "vendor_status_on_msme_if_yes_mention_msme_no",
+  "valid_msme_certificate_if_applicable",
+  "bank_account_number",
+  "account_type",
+  "bank_name",
+  "ifsc_code",
+  "beneficiary_name",
+  "cancelled_cheque_leafbank_letter_copy",
+  "naming_series",
+  "otp",
+  "reason_of_rejection"
+ ],
+ "fields": [
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Company Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country",
+   "reqd": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "label": "State",
+   "options": "\nAndaman and Nicobar Islands\nAndhra Pradesh\nArunachal Pradesh\nAssam\nBihar\nChandigarh\nChhattisgarh\nDadra and Nagar Haveli and Daman and Diu\nDelhi\nGoa\nGujarat\nHaryana\nHimachal Pradesh\nJammu and Kashmir\nJharkhand\nKarnataka\nKerala\nLadakh\nLakshadweep Islands\nMadhya Pradesh\nMaharashtra\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nOther Territory\nPondicherry\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttar Pradesh\nUttarakhand\nWest Bengal",
+   "reqd": 1
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "City",
+   "reqd": 1
+  },
+  {
+   "fieldname": "postal_code",
+   "fieldtype": "Data",
+   "label": "Postal Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_person_name",
+   "fieldtype": "Data",
+   "label": "Contact Person Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_person_designation",
+   "fieldtype": "Data",
+   "label": "Contact Person Designation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "landline_number",
+   "fieldtype": "Data",
+   "label": "Landline Number"
+  },
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website",
+   "reqd": 1
+  },
+  {
+   "fieldname": "email_address",
+   "fieldtype": "Data",
+   "label": "Email Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan_number",
+   "fieldtype": "Data",
+   "label": "Pan Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan_card_copy",
+   "fieldtype": "Attach",
+   "label": "Pan Card Copy",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gst_status",
+   "fieldtype": "Select",
+   "label": "GST Status",
+   "options": "\nRegistered Regular\nRegistered Composition\nUnregistered\nSEZ\nOverseas\nUIN Holders"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Registered Regular\";",
+   "fieldname": "gst_number",
+   "fieldtype": "Data",
+   "label": "GST Number",
+   "mandatory_depends_on": "eval:doc.gst_status == \"Registered Regular\";"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_of_gst_non_enrollment",
+   "fieldtype": "Text Editor",
+   "label": "Declaration of GST Non Enrollment"
+  },
+  {
+   "fieldname": "vendor_status_on_msme_if_yes_mention_msme_no",
+   "fieldtype": "Data",
+   "label": "Vendor status on MSME (If Yes Mention MSME No. else Mention No)"
+  },
+  {
+   "fieldname": "valid_msme_certificate_if_applicable",
+   "fieldtype": "Attach",
+   "label": "Valid MSME Certificate (if applicable)"
+  },
+  {
+   "fieldname": "bank_account_number",
+   "fieldtype": "Data",
+   "label": "Bank Account Number"
+  },
+  {
+   "fieldname": "account_type",
+   "fieldtype": "Link",
+   "label": "Account Type",
+   "options": "Bank Account Type"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Link",
+   "label": "Bank Name",
+   "options": "Bank"
+  },
+  {
+   "fieldname": "ifsc_code",
+   "fieldtype": "Data",
+   "label": "IFSC Code"
+  },
+  {
+   "fieldname": "beneficiary_name",
+   "fieldtype": "Data",
+   "label": "Beneficiary Name"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "Vendor-"
+  },
+  {
+   "fieldname": "otp",
+   "fieldtype": "Data",
+   "label": "OTP"
+  },
+  {
+   "depends_on": "eval:doc.workflow_state == \"Vendor Rejected\";",
+   "fieldname": "reason_of_rejection",
+   "fieldtype": "Data",
+   "label": "Reason of Rejection"
+  },
+  {
+   "fieldname": "cancelled_cheque_leafbank_letter_copy",
+   "fieldtype": "Attach",
+   "label": "Cancelled cheque leaf/Bank Letter copy of the above mentioned bank accounts"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Registered Regular\";",
+   "fieldname": "gst_registration_copy",
+   "fieldtype": "Attach",
+   "label": "GST Registration Copy",
+   "mandatory_depends_on": "eval:doc.gst_status == \"Registered Regular\";"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-01-18 11:46:05.391922",
+ "modified_by": "Administrator",
+ "module": "OneFinance",
+ "name": "Vendor",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Auditor",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

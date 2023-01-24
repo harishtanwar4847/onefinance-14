@@ -1,0 +1,41 @@
+{
+ "custom_fields": [],
+ "custom_perms": [
+  {
+   "_assign": null,
+   "_comments": null,
+   "_liked_by": null,
+   "_user_tags": null,
+   "amend": 0,
+   "cancel": 0,
+   "create": 0,
+   "creation": "2023-01-23 15:20:09.944312",
+   "delete": 0,
+   "docstatus": 0,
+   "email": 1,
+   "export": 1,
+   "idx": 0,
+   "if_owner": 0,
+   "import": 0,
+   "modified": "2023-01-23 15:20:09.944312",
+   "modified_by": "Administrator",
+   "name": "3e9f6fac0d",
+   "owner": "Administrator",
+   "parent": "Lower Deduction Certificate",
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Auditor",
+   "select": 0,
+   "set_user_permissions": 0,
+   "share": 1,
+   "submit": 0,
+   "write": 0
+  }
+ ],
+ "doctype": "Lower Deduction Certificate",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

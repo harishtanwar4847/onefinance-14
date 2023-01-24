@@ -119,7 +119,8 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
+scheduler_events = {
+    "cron":{"30 09 * * *": ["onefinance.tasks.reminders_at_ten"]},
 #	"all": [
 #		"onefinance.tasks.all"
 #	],
@@ -135,7 +136,7 @@ doc_events = {
 #	"monthly": [
 #		"onefinance.tasks.monthly"
 #	],
-# }
+}
 
 # Testing
 # -------

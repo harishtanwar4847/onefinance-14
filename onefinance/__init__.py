@@ -20,18 +20,6 @@ from frappe.workflow.doctype.workflow_action.workflow_action import confirm_acti
 
 
 
-# from frappe.workflow.doctype.workflow_action.workflow_action import return_success_page as return_success_page_frappe
-# from frappe.workflow.doctype.workflow_action.workflow_action import confirm_action as confirm_action_frappe
-
-
-"""
-
-clear_old_workflow_actions_using_user does not exists in v14
-create_workflow_actions_for_roles does not exists in v14
-
-"""
-
-
 def get_common_email_args_custom(doc, attachments=None):
     doctype = doc.get('doctype')
     docname = doc.get('name')
@@ -40,7 +28,7 @@ def get_common_email_args_custom(doc, attachments=None):
         if doc.workflow_state == "Approval Pending" or doc.workflow_state == "Approved" or doc.workflow_state == "On Hold By Department Head" or doc.workflow_state == "Management Approval Pending" or doc.workflow_state == "Approved By Management" or doc.workflow_state == "Rejected" or doc.workflow_state == "Rejected By Management" or doc.workflow_state == "On Hold By Management":
             message1 = """<b>{0} : {1}</b><br><br>""".format(doctype, docname)
             if doc.workflow_state == "Approved" or doc.workflow_state == "Management Approval Pending":
-                var = frappe.get_doc("User", doc.department_head).full_name
+                var = frappe.get_doc("User", doc.cost_center_department_head).full_name
                 message2 = """<b>Approved By :</b> {}<br><br>""".format(var)
             else:
                 message2 = """<br>"""
@@ -97,56 +85,57 @@ def get_common_email_args_custom(doc, attachments=None):
             }
             return common_args
 
-
 def send_workflow_action_email_custom(users_data, doc):
-    print("send", doc.doctype)
-    print("##############")
-    common_args = get_common_email_args_custom(doc)
-    message = common_args.pop('message', None)
-    if doc.workflow_state == "Approval Pending" or doc.workflow_state == "On Hold By Department Head":
-        for d in users_data:
-            print(d)
-            email_args = {
-                'recipients': [doc.cost_center_department_head],
-                'args': {
-                    'actions': list(deduplicate_actions(d.get('possible_actions'))),
-                    'message': message
-                },
-                'reference_name': doc.name,
-                'reference_doctype': doc.doctype
-            }
-            email_args.update(common_args)
-            enqueue(method=frappe.sendmail, queue='short', **email_args)
-            break
+	print("send", doc.doctype)
+	print("##############")
+	common_args = get_common_email_args_custom(doc)
+	if doc.workflow_state == "Approval Pending" or doc.workflow_state == "On Hold By Department Head":
+		message = common_args.pop('message', None)
+		for d in users_data:
+			print(d)
+			email_args = {
+				'recipients': [doc.cost_center_department_head],
+				'args': {
+					'actions': list(deduplicate_actions(d.get('possible_actions'))),
+					'message': message
+				},
+				'reference_name': doc.name,
+				'reference_doctype': doc.doctype
+			}
+			email_args.update(common_args)
+			enqueue(method=frappe.sendmail, queue='short', **email_args)
+			break
 
-    if doc.workflow_state == "Management Approval Pending" or doc.workflow_state == "On Hold By Management":
-        for d in users_data:
-            email_args = {
-                'recipients': [doc.cost_center_manager],
-                'args': {
-                    'actions': list(deduplicate_actions(d.get('possible_actions'))),
-                    'message': message
-                },
-                'reference_name': doc.name,
-                'reference_doctype': doc.doctype
-            }
-            email_args.update(common_args)
-            enqueue(method=frappe.sendmail, queue='short', **email_args)
-            break
+	if doc.workflow_state == "Management Approval Pending" or doc.workflow_state == "On Hold By Management":
+		message = common_args.pop('message', None)
+		for d in users_data:
+			email_args = {
+				'recipients': [doc.cost_center_manager],
+				'args': {
+					'actions': list(deduplicate_actions(d.get('possible_actions'))),
+					'message': message
+				},
+				'reference_name': doc.name,
+				'reference_doctype': doc.doctype
+			}
+			email_args.update(common_args)
+			enqueue(method=frappe.sendmail, queue='short', **email_args)
+			break
 
-    if doc.workflow_state == "Approved" or doc.workflow_state == "Approved By Management" or doc.workflow_state == "Rejected" or doc.workflow_state == "Rejected By Management":
-        for d in users_data:
-            email_args = {
-                'recipients': [d.get('email')],
-                'args': {
-                    'actions': list(deduplicate_actions(d.get('possible_actions'))),
-                    'message': message
-                },
-                'reference_name': doc.name,
-                'reference_doctype': doc.doctype
-            }
-            email_args.update(common_args)
-            enqueue(method=frappe.sendmail, queue='short', **email_args)
+	if doc.workflow_state == "Approved" or doc.workflow_state == "Approved By Management" or doc.workflow_state == "Rejected" or doc.workflow_state == "Rejected By Management":
+		message = common_args.pop('message', None)
+		for d in users_data:
+			email_args = {
+				'recipients': [d.get('email')],
+				'args': {
+					'actions': list(deduplicate_actions(d.get('possible_actions'))),
+					'message': message
+				},
+				'reference_name': doc.name,
+				'reference_doctype': doc.doctype
+			}
+			email_args.update(common_args)
+			enqueue(method=frappe.sendmail, queue='short', **email_args)
 
 
 def process_workflow_actions_custom(doc, state):

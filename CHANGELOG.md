@@ -2,6 +2,12 @@
 
 ### Added
 
+## [v0.1.1-uat+1] - 2023-01-24
+
+- [Customization : Incoterm Doctype Deletion ](https://gitlab.com/atri-tech/atri-maintainers/onefinance-14/-/merge_requests/3)
+
+### Added
+
 ## [v0.1.1-uat] - 2023-01-24
 
 - [Auditor role permissions | morning reminders for approval](https://gitlab.com/atri-tech/atri-maintainers/onefinance-14/-/merge_requests/2)

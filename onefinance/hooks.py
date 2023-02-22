@@ -31,6 +31,7 @@ app_license = "MIT"
 # include js in doctype views
 doctype_js = {
 	"Purchase Invoice" : "public/js/purchase_invoice.js",
+	"Purchase Order" : "public/js/purchase_order.js",
 	"Cost Center" : "public/js/cost_center.js"
 	}
 
@@ -113,6 +114,10 @@ doc_events = {
 	},
 	"Purchase Invoice":{
 		"before_save":"onefinance.utils.on_update_purchase_invoice"
+	},
+	#Set Checker Field = session.user
+ 	"Purchase Order":{
+		"before_save":"onefinance.utils.on_update_purchase_order"
 	}
 }
 

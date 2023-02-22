@@ -1,9 +1,9 @@
-frappe.ui.form.on('Purchase Invoice', {
+frappe.ui.form.on('Purchase Order', {
     refresh: function (frm) {
         $('.modal-actions').hide();
         $(".actions").hide();
         if (frm.doc.workflow_state != "On Hold By Management" && frm.doc.workflow_state != "On Hold By Department Head" && frm.doc.on_hold && frm.doc.release_date && frm.doc.hold_comment) {
-            if (window.timeout) {
+            if (window.timeout){
                 clearTimeout(window.timeout)
                 delete window.timeout
             }
@@ -66,7 +66,7 @@ frappe.ui.form.on('Purchase Invoice', {
                         frm.set_value("hold_comment", data.reason_for_hold)
                         frm.refresh_field("on_hold")
                         frm.refresh_field("release_date")
-                        frm.refresh_field("hold_comment")
+                        frm.refresh_field("hold_comment") 
                         frm.save()
                     }, 2500)
                     frappe.call({
@@ -139,7 +139,7 @@ frappe.ui.form.on('Purchase Invoice', {
             method: "onefinance.utils.workflow_changed_comment",
             args: {
                 doc_name: frm.doc.name,
-                doctype_name : 'Purchase Invoice'
+                doctype_name : 'Purchase Order'
             },
             callback: function (r) {
                 frm.reload_doc();
@@ -147,18 +147,66 @@ frappe.ui.form.on('Purchase Invoice', {
         });
     },
 
+    //Fetch Total from  Purchase Order For Purchase Invoice.
     onload: (frm) => {
         if (frm.doc.purchase_order) {
             frappe.db.get_doc("Purchase Order", frm.doc.purchase_order).then(doc => {
                 frm.set_value('purchase_order_amount', doc.total)
-                frm.set_value('is_approval_required', doc.is_approval_required)
-                // frm.set_value('purchase_order_workflow_state', doc.workflow_state) // Purchase Order Is Approval On Submitted Doc.
             })
         }
-    }
+    },
+
+    //EXP
+    // workflow_state : (frm) => {
+    //     frappe.call({
+    //         method: "onefinance.__init__.apply_action_custom",
+    //         args: {
+    //             doc_name: frm.doc.name,
+    //             doctype_name : 'Purchase Order',
+    //             action : action,
+    //             // current_state, user : None,
+    //             // last_modified : None
+    //         },
+    //         callback: function (r) {
+    //             frappe.msgprint('Function Triggered')
+    //             frm.reload_doc();
+    //         }
+    //     });
+    // }
+    //EXP
 });
 
 
 
 
 
+
+
+// //     after_save:(frm) => {
+// //         if(frm.doc.is_approval_required != 1){
+
+// //             // Not Working We cannot change workflow state directly as it is not allowed due to security issues.
+            
+// //             // frm.doc.workflow_state == "Created"
+// //             // frm.set_value("workflow_state", "Draft")
+// //             // frm.save()
+// //             frappe.call({
+// //                 method: "onefinance.utils.set_workflow_state_to_draft",
+// //                 args: {
+// //                     reference_doctype: frm.doc.doctype, //get doctype name
+// //                     reference_name: frm.doc.name //get document name
+// //                 },
+// //                 freeze : true,
+// //                 callback: function(r) {
+// //                     frm.refresh_field('workflow_state');
+// //                     frm.refresh()
+// //                     frm.reload_doc();
+// //                     // frappe.msgprint(r.message)
+// //                     // frm.reload_doc(reference_name);
+
+// //                 }
+// //             }); 
+// //         }
+
+// //     }
+// })

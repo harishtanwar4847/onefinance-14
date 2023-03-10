@@ -1,0 +1,28 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.reason_of_rejection",
+ "creation": "2023-01-19 11:37:36.028957",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Vendor",
+ "enabled": 1,
+ "event": "Save",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Hi {{doc.company_name}},<br><br>\n\nYour vendor registration is rejected due to following reason:<br><br>\n\n{{doc.reason_of_rejection}}.",
+ "modified": "2023-01-19 12:12:37.812248",
+ "modified_by": "Administrator",
+ "module": "OneFinance",
+ "name": "Your vendor registration is rejected",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "email_address"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Your vendor registration is rejected"
+}

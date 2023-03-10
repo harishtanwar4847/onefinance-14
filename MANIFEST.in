@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include onefinance *.css
+recursive-include onefinance *.csv
+recursive-include onefinance *.html
+recursive-include onefinance *.ico
+recursive-include onefinance *.js
+recursive-include onefinance *.json
+recursive-include onefinance *.md
+recursive-include onefinance *.png
+recursive-include onefinance *.py
+recursive-include onefinance *.svg
+recursive-include onefinance *.txt
+recursive-exclude onefinance *.pyc

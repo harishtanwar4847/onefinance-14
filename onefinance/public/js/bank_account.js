@@ -18,6 +18,9 @@ frappe.ui.form.on('Bank Account', {
         if (frm.doc.bank!==undefined && frm.doc.bank.length>100){
             frappe.throw("Length of bank name cannot be greater than 100")
         }
+        if (frm.doc.branch_name.includes(",")){
+            frappe.throw("Please remove comma(,) from Branch Name")
+        }
         if (frm.doc.branch_name!==undefined && frm.doc.branch_name.length>40){
             frappe.throw("Length of branch name cannot be greater than 40")
         }

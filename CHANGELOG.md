@@ -2,6 +2,12 @@
 
 ### Added
 
+## [v0.1.3-uat] - 2023-03-13
+
+- [ Purchase Order Notification Fix ](https://gitlab.com/atri-tech/atri-maintainers/onefinance-14/-/merge_requests/6)
+
+### Added
+
 ## [v0.1.2-uat] - 2023-02-22
 
 - [ Matrix of PO and Bank Reports ](https://gitlab.com/atri-tech/atri-maintainers/onefinance-14/-/merge_requests/4)

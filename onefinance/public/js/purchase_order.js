@@ -152,6 +152,7 @@ frappe.ui.form.on('Purchase Order', {
         if (frm.doc.purchase_order) {
             frappe.db.get_doc("Purchase Order", frm.doc.purchase_order).then(doc => {
                 frm.set_value('purchase_order_amount', doc.total)
+
             })
         }
     },

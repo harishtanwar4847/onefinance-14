@@ -174,7 +174,7 @@ def get_data(filters):
 		(select state from `tabAddress` a join `tabDynamic Link` d where d.parent = a.name and d.link_name = p.supplier) as "State",
 		(select country from `tabAddress` a join `tabDynamic Link` d where d.parent = a.name and d.link_name = p.supplier) as "Country",
 		(select pincode from `tabAddress` a join `tabDynamic Link` d where d.parent = a.name and d.link_name = p.supplier) as "Pin Code",
-		(select max(c.email_id) from `tabContact Email` c join `tabDynamic Link` d where c.parent = d.parent and d.link_name = p.supplier) as "Email Id",
+		ba.beneficiary_email_id as "Email Id",
 		(select max(cp.phone) from `tabContact Phone` cp join `tabDynamic Link` d where cp.parent = d.parent and d.link_name = p.supplier) as "Mobile No",
 		dc.daily_cumulative_limit as "Daily Cumulative Limit",
 		dc.payment_product as "Payment Product",
@@ -205,4 +205,3 @@ def get_conditions(filters):
 		conditions.append(" and p.cost_center=%(cost_center)s")
 
 	return " ".join(conditions) if conditions else ""
-

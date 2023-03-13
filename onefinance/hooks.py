@@ -27,12 +27,19 @@ app_license = "MIT"
 
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
+doctype_list_js = {
+	"Purchase Invoice" : "public/js/purchase_invoice_list.js",
+	"Purchase Order" : "public/js/purchase_order_list.js"
+	}
+
 
 # include js in doctype views
 doctype_js = {
 	"Purchase Invoice" : "public/js/purchase_invoice.js",
 	"Purchase Order" : "public/js/purchase_order.js",
-	"Cost Center" : "public/js/cost_center.js"
+	"Cost Center" : "public/js/cost_center.js",
+ 	"Bank Account" : "public/js/bank_account.js"
+	
 	}
 
 # Home Pages

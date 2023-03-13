@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 /* eslint-disable */
 
-frappe.query_reports["Bene Script Report"] = {
+frappe.query_reports["HDFC Bank Payment Report"] = {
 	get_datatable_options(options) {
 		return Object.assign(options, {
 			checkboxColumn: true,
@@ -29,17 +29,17 @@ frappe.query_reports["Bene Script Report"] = {
 			else{
 				frappe.throw("Please select rows first")
 			}
+  
      
 			var hiddenElement = document.createElement('a');  
 			hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
 			hiddenElement.target = '_blank';  
-			hiddenElement.download = 'Bene Report.csv';  
-			hiddenElement.click(); 
-			location.reload()  
-			
+			hiddenElement.download = 'HDFC Bank Payment Report.csv';  
+			hiddenElement.click();   
+			location.reload()
 		});
     },
-	
+
 	"filters": [
 		{
 			"fieldname":"supplier",
@@ -58,6 +58,6 @@ frappe.query_reports["Bene Script Report"] = {
 			"fieldtype": "Link",
 			"options": "Cost Center",
 		}
-
+		
 	]
 };

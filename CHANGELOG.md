@@ -2,6 +2,19 @@
 
 ### Added
 
+## [v0.1.4] - 2023-03-15
+## [v0.1.4-uat] - 2023-03-13
+
+- [ Export Bank Account ](https://gitlab.com/atri-tech/atri-maintainers/onefinance-14/-/merge_requests/6)
+
+### Added
+
+## [v0.1.3-uat] - 2023-03-13
+
+- [ Purchase Order Notification Fix ](https://gitlab.com/atri-tech/atri-maintainers/onefinance-14/-/merge_requests/6)
+
+### Added
+
 ## [v0.1.2] - 2023-03-10
 ## [v0.1.2-uat] - 2023-02-22
 

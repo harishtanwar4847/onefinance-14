@@ -1,0 +1,28 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.hold_comment and doc.workflow_state == \"On Hold By Management\"",
+ "creation": "2023-01-31 15:11:15.147959",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Purchase Order",
+ "enabled": 1,
+ "event": "Save",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Hello {% set var = frappe.get_doc('User', doc.checker) %} {{var.full_name}}, <br><br>\nThe below-mention payment approval is being kept on hold.<br>\nReason : {{doc.hold_comment}}\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" align=\"\">\n<th>Party Name</th>\n<th>Amount</th>\n<th>Description</th>\n{% for i in doc.items %}\n<tr>\n<td>{{doc.supplier}}</td>\n<td>{{i.amount}}</td>\n<td>{{i.description}}</td>\n</tr>\n{% endfor %}\n</table><br><br>",
+ "modified": "2023-03-11 12:28:37.212745",
+ "modified_by": "Administrator",
+ "module": "OneFinance",
+ "name": "Purchase Order On Hold Exco",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "checker"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Purchase Order On Hold "
+}

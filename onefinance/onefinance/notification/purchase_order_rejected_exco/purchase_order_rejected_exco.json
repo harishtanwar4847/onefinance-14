@@ -1,0 +1,28 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.reason_of_rejection and doc.workflow_state == \"Rejected By Management\"",
+ "creation": "2023-01-31 14:17:56.177824",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Purchase Order",
+ "enabled": 1,
+ "event": "Save",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Hello {% set var = frappe.get_doc('User', doc.checker) %} {{var.full_name}}, <br><br>\nThe below-mention payment approval is being Rejected.<br>\nReason : {{doc.reason_of_rejection}}\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" align=\"\">\n<th>Party Name</th>\n<th>Invoice No.</th>\n<th>Invoice Date</th>\n<th>Amount</th>\n<th>Description</th>\n{% for i in doc.items %}\n<tr>\n<td>{{doc.supplier}}</td>\n<!-- <td>{{doc.bill_no}}</td> -->\n<!-- <td>{{doc.bill_date}}</td> -->\n<td>{{i.amount}}</td>\n<td>{{i.description}}</td>\n</tr>\n{% endfor %}\n</table><br><br>",
+ "modified": "2023-03-11 12:28:54.290241",
+ "modified_by": "Administrator",
+ "module": "OneFinance",
+ "name": "Purchase Order Rejected Exco",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "checker"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Purchase Order Rejected"
+}

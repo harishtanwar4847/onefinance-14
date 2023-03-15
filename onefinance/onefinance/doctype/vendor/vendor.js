@@ -2,12 +2,25 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Vendor', {
-	// refresh: function(frm) {
+    // onload: (frm) => {
+    //     frm.add_custom_button('Add Value', () => {
+    //         frappe.db.get_doc("Purchase Order", "PUR-ORD-2023-00250").then(doc => {
+    //             frm.set_value("company_name", doc.supplier_contact)
+    //         })
+    // }},
 
-	// }
-	before_workflow_action: (frm) => {
+    // refresh: (frm) => {
+    //     frm.add_custom_button('Add Value', () => {
+
+    //         frappe.db.get_doc("Purchase Order", "PUR-ORD-2023-00250").then(doc => {
+    //             frm.set_value("company_name", doc.supplier)
+    //         })
+    //     })
+    // },
+
+    before_workflow_action: (frm) => {
         if (frm.selected_workflow_action === "Reject Vendor") {
-            
+
             var me = this;
             var d = new frappe.ui.Dialog({
                 title: __('Reason for Vendor Rejection'),
@@ -18,18 +31,18 @@ frappe.ui.form.on('Vendor', {
                         "reqd": 1,
                     }
                 ],
-                primary_action: function() {
+                primary_action: function () {
                     var data = d.get_values();
                     let reason_for_vendor_rejection = 'Reason for Vendor Rejection: ' + data.reason_for_vendor_rejection;
-					if (window.timeout){
-						clearTimeout(window.timeout)
-						delete window.timeout
-					}
-					window.timeout=setTimeout(function(){
-						frm.set_value("reason_of_rejection", data.reason_for_vendor_rejection) 
-						frm.refresh_field("reason_of_rejection")              
-						frm.save()
-					},1500)
+                    if (window.timeout) {
+                        clearTimeout(window.timeout)
+                        delete window.timeout
+                    }
+                    window.timeout = setTimeout(function () {
+                        frm.set_value("reason_of_rejection", data.reason_for_vendor_rejection)
+                        frm.refresh_field("reason_of_rejection")
+                        frm.save()
+                    }, 1500)
                     frappe.call({
                         method: "frappe.desk.form.utils.add_comment",
                         args: {
@@ -39,16 +52,19 @@ frappe.ui.form.on('Vendor', {
                             comment_email: frappe.session.user,
                             comment_by: frappe.session.user_fullname
                         },
-                        callback: function(r) {
+                        callback: function (r) {
                             frm.reload_doc();
                             d.hide();
                         }
-                    });   
-                                   
+                    });
+
                 }
 
             });
-            d.show();         
+            d.show();
         }
+
     }
+
+
 });

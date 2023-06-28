@@ -1,6 +1,5 @@
 import frappe
 
-
 def on_update_purchase_invoice(doc, method):
     p_list = []
     item_list = []
@@ -16,8 +15,7 @@ def on_update_purchase_invoice(doc, method):
     if res:
         doc.set("pre_approved_items", [])
         for i in res:
-            poi_list = frappe.db.get_all('Purchase Order Item', fields=['item_code', 'description', 'item_name', 'qty', 'rate', 'base_rate', 'uom',
-                                         'conversion_factor', 'stock_qty', 'amount', 'base_amount', 'parent'], filters={'parent': ["=", i[0]], 'item_code': ["=", i[1]]})
+            poi_list = frappe.db.get_all('Purchase Order Item', fields=['item_code', 'description', 'item_name', 'qty', 'rate', 'base_rate', 'uom', 'conversion_factor', 'stock_qty', 'amount', 'base_amount', 'parent'], filters={'parent': ["=", i[0]], 'item_code': ["=", i[1]]})
             print(poi_list)
             for i in poi_list:
                 doc.append('pre_approved_items', {
@@ -40,19 +38,51 @@ def on_update_purchase_invoice(doc, method):
     old_doc = doc.get_doc_before_save()
     if doc.workflow_state == "Approval Pending" and old_doc.workflow_state == "Verification Pending":
         doc.checker = frappe.session.user
+    if doc.workflow_state == "Approved":
+        doc.approver_1 = frappe.get_doc("User",doc.cost_center_department_head).full_name
+        doc.approver_2 = frappe.get_doc("User",doc.cost_center_department_head).full_name
+    if doc.workflow_state == "Management Approval Pending":
+        doc.approver_1 = frappe.get_doc("User",doc.cost_center_department_head).full_name
+    if doc.workflow_state == "Approved By Management":
+        doc.approver_2 = frappe.get_doc("User",doc.cost_center_manager).full_name
 
 # On Update Purchase Order # Setting checker field with current session user
-
-
 def on_update_purchase_order(doc, method):
     old_doc = doc.get_doc_before_save()
     if doc.workflow_state == "Approval Pending" and old_doc.workflow_state == "Verification Pending":
         doc.checker = frappe.session.user
+    if doc.workflow_state == "Approved":
+        doc.approver_1 = frappe.get_doc("User",doc.cost_center_department_head).full_name
+        doc.approver_2 = frappe.get_doc("User",doc.cost_center_department_head).full_name
+    if doc.workflow_state == "Management Approval Pending":
+        doc.approver_1 = frappe.get_doc("User",doc.cost_center_department_head).full_name
+    if doc.workflow_state == "Approved By Management":
+        doc.approver_2 = frappe.get_doc("User",doc.cost_center_manager).full_name
 
+def before_save(doc,method):
+    if doc.references:
+        for item in doc.references:  
+            if item.reference_doctype=="Purchase Invoice":
+                item.approver = frappe.get_doc("Purchase Invoice", item.reference_name).approver_2
+                print(item.approver,"item.approver")
+                description = frappe.db.sql("""select description from `tabPurchase Invoice Item` pi where pi.parent=%s""",item.reference_name)
+                print(description[0][0],"description")
+                item.description=description[0][0]
+        
+            if item.reference_doctype=="Purchase Order":
+                item.approver = frappe.get_doc("Purchase Order", item.reference_name).approver_2
+                print(item.approver,"item.approver")
+                description = frappe.db.sql("""select description from `tabPurchase Order Item` pi where pi.parent=%s""",item.reference_name)
+                print(description[0][0],"description")
+                item.description=description[0][0]
 
-def on_submit(doc, method):
-    supplier_list = [x[0] for x in frappe.db.sql(
-        """select c.email_id from `tabContact Email` c join `tabDynamic Link` d where c.parent = d.parent and d.link_name = %s""", doc.party)]
+            if item.reference_doctype=="Journal Entry":
+                item.approver = frappe.get_doc("Journal Entry", item.reference_name).approver
+                item.description = frappe.get_doc("Journal Entry", item.reference_name).remark
+                print(item.approver,"item.approver")
+
+def on_submit_payment(doc, method):
+    supplier_list = [x[0] for x in frappe.db.sql("""select c.email_id from `tabContact Email` c join `tabDynamic Link` d where c.parent = d.parent and d.link_name = %s""", doc.party)]
     if supplier_list:
         for i in range(len(supplier_list)):
             msg = """Hello,<br><br>
@@ -60,28 +90,39 @@ def on_submit(doc, method):
             <table border="1" cellspacing="0" cellpadding="5" align="" style=text-align:center>
                         <tr><th>Party Name</th><th>Invoice No.</th><th>Invoice Date</th><th>Invoice Value</th><th>TDS Deducted</th><th>Payment Amount</th><th>Payment Date</th><th>Bank Reference No.</th></tr>
                         """
-            for item in doc.references:
-                invoice_date = frappe.get_doc(
-                    "Purchase Invoice", item.reference_name).bill_date
-                tds_deducted = frappe.get_doc(
-                    "Purchase Invoice", item.reference_name).taxes_and_charges_deducted
-                invoice_value = frappe.get_doc("Purchase Invoice", item.reference_name).total + frappe.get_doc(
-                    "Purchase Invoice", item.reference_name).taxes_and_charges_added
-                msg += "<tr><td>"+doc.party + "</td><td>"+str(item.bill_no if item.bill_no else "--") + "</td><td>" + str(invoice_date if invoice_date else "--") + "</td><td>" + str(
-                    invoice_value) + "</td><td>" + str(tds_deducted) + "</td><td>" + str(doc.paid_amount) + "</td><td>" + str(doc.reference_date) + "</td><td>" + str(doc.reference_no) + "</td><tr>"
+            if doc.references:
+                for item in doc.references:
+                    if item.reference_doctype == "Purchase Invoice":
+                        invoice_date = frappe.get_doc("Purchase Invoice", item.reference_name).bill_date
+                        tds_deducted = frappe.get_doc("Purchase Invoice", item.reference_name).taxes_and_charges_deducted
+                        invoice_value = frappe.get_doc("Purchase Invoice", item.reference_name).total + frappe.get_doc("Purchase Invoice", item.reference_name).taxes_and_charges_added
+                        msg += "<tr><td>"+doc.party+ "</td><td>"+str(item.bill_no if item.bill_no else "--") + "</td><td>" + str(invoice_date if invoice_date else "--") + "</td><td>" + str(invoice_value) + "</td><td>" + str(tds_deducted) + "</td><td>" + str(item.allocated_amount) + "</td><td>" + str(doc.reference_date) + "</td><td>" + str(doc.reference_no) + "</td><tr>"
+                    if item.reference_doctype == "Purchase Order":
+                        tds_deducted = frappe.get_doc("Purchase Order", item.reference_name).taxes_and_charges_deducted
+                        invoice_value = frappe.get_doc("Purchase Order", item.reference_name).total + frappe.get_doc("Purchase Order", item.reference_name).taxes_and_charges_added
+                        msg += "<tr><td>"+doc.party+ "</td><td>"+"--"+ "</td><td>" +  "--" + "</td><td>" + str(invoice_value) + "</td><td>" + str(tds_deducted) + "</td><td>" + str(item.allocated_amount) + "</td><td>" + str(doc.reference_date) + "</td><td>" + str(doc.reference_no) + "</td><tr>"
+                    if item.reference_doctype == "Journal Entry":
+                        msg += "<tr><td>"+doc.party+ "</td><td>"+"--"+ "</td><td>" +  "--" + "</td><td>" + "--" + "</td><td>" + '--' + "</td><td>" + str(item.allocated_amount) + "</td><td>" + str(doc.reference_date) + "</td><td>" + str(doc.reference_no) + "</td><tr>"
                 msg += "</table><br>"
-                msg += "In case of any queries, you can contact below.<br> Email: accounts@1finance.co.in <br>Phone: 022-69121147"
-            frappe.sendmail(subject="1 Finance Payment Details",
-                            content=msg, recipients='{}'.format(supplier_list[i]))
+                msg+= "In case of any queries, you can contact below.<br> Email: accounts@1finance.co.in <br>Phone: 022-69121147"
+                frappe.sendmail(subject="1 Finance Payment Details", content=msg, recipients = '{}'.format(supplier_list[i]))
+    
     frappe.db.set_value('Payment Entry', {'name': doc.name}, 'submitted_date', frappe.utils.today())
+    approver_name = frappe.db.get_value('User', {'name':doc.approver_id}, 'full_name')
+    frappe.db.set_value('Payment Entry', {'name': doc.name}, 'approver', approver_name)
     frappe.db.commit()
-    doc.reload()    
+    doc.reload()  
 
+def on_submit_journal(doc,method):
+    frappe.db.set_value('Journal Entry', {'name': doc.name}, 'submitted_date', frappe.utils.today())
+    approver_name = frappe.db.get_value('User', {'name':doc.approver_id}, 'full_name')
+    frappe.db.set_value('Journal Entry', {'name': doc.name}, 'approver', approver_name)
+    frappe.db.commit()
+    doc.reload()  
 
 def on_update_vendor(doc, method):
     if doc.workflow_state == "Vendor Created":
-        supp = frappe.get_doc({"doctype": "Supplier", "supplier_name": doc.company_name, "supplier_group": "All Supplier Groups", "gst_category": doc.gst_status,
-                              "pan": doc.pan_number, "msme_number": doc.vendor_status_on_msme_if_yes_mention_msme_no, "country": doc.country, "website": doc.website})
+        supp = frappe.get_doc({"doctype": "Supplier", "supplier_name": doc.company_name, "supplier_group": "All Supplier Groups", "gst_category": doc.gst_status, "pan": doc.pan_number, "msme_number": doc.vendor_status_on_msme_if_yes_mention_msme_no, "country": doc.country, "website": doc.website})
         supp.insert(ignore_permissions=True)
 
         add = frappe.new_doc("Address")
@@ -126,6 +167,8 @@ def on_update_vendor(doc, method):
 
         bank.insert()
 
+
+
         file = frappe.new_doc("File")
         if doc.gst_registration_copy:
             file.file_name = doc.company_name + " - " + "Gst registration copy"
@@ -155,80 +198,47 @@ def on_update_vendor(doc, method):
             file.attached_to_name = doc.company_name
             file.name = doc.company_name + " - " + "Cancelled cheque copy"
             file.insert()
-
+            
+@frappe.whitelist()
+def workflow_changed_comment(doc_name):
+    usr_name = frappe.get_doc("User",frappe.session.user).full_name
+    usr = frappe.utils.get_link_to_form("User",frappe.session.user,usr_name)
+    doc = frappe.get_doc("Purchase Invoice",doc_name)
+    if doc.workflow_state == "Verification Pending":
+        doc.add_comment(text="{} has send the invoice for verification pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
+    if doc.workflow_state == "Approval Pending":
+        doc.add_comment(text="{} has send the invoice for approval pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
+    if doc.workflow_state == "Management Approval Pending":
+        doc.add_comment(text="{} has send the invoice for management approval pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
+    if doc.workflow_state == "Approved" or doc.workflow_state == "Approved By Management":
+        doc.add_comment(text="{} has approved the invoice".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
+    if doc.workflow_state == "On Hold By Department Head" or doc.workflow_state == "On Hold By Management":
+        doc.add_comment(text="{} has kept the invoice on Hold".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
+    if doc.workflow_state == "Rejected By Department Head" or doc.workflow_state == "Rejected By Management":
+        doc.add_comment(text="{} has rejected the invoice".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
+    if doc.workflow_state == "Submitted":
+        doc.add_comment(text="{} has submitted the invoice".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
+    if doc.workflow_state == "Cancelled":
+        doc.add_comment(text="{} has cancelled the invoice".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
 
 @frappe.whitelist()
-def workflow_changed_comment(doc_name, doctype_name):
-    usr_name = frappe.get_doc("User", frappe.session.user).full_name
-    usr = frappe.utils.get_link_to_form("User", frappe.session.user, usr_name)
-    # if doctype_name == 'Purchase Order':
-    #     doc = frappe.get_doc("Purchase Order",doc_name)
-    # else:
-    #     doc = frappe.get_doc("Purchase Invoice",doc_name)
-    doc = frappe.get_doc("Purchase Order", doc_name) if doctype_name == "Purchase Order" else frappe.get_doc(
-        "Purchase Invoice", doc_name)
-    doctype_name = "Purchase Order" if doctype_name == "Purchase Order" else "Invoice"
-    doctype_name = doctype_name.lower() # Change Doctype name into lower case
-    
+def workflow_changed_comment_order(doc_name):
+    usr_name = frappe.get_doc("User",frappe.session.user).full_name
+    usr = frappe.utils.get_link_to_form("User",frappe.session.user,usr_name)
+    doc = frappe.get_doc("Purchase Order",doc_name)
     if doc.workflow_state == "Verification Pending":
-        doc.add_comment(text="{0} has send the {1} for verification pending".format(
-            usr, doctype_name), comment_email=frappe.session.user, comment_by=usr_name)
+        doc.add_comment(text="{} has send the purchase order for verification pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
     if doc.workflow_state == "Approval Pending":
-        doc.add_comment(text="{0} has send the {1} for approval pending".format(
-            usr, doctype_name), comment_email=frappe.session.user, comment_by=usr_name)
+        doc.add_comment(text="{} has send the purchase order for approval pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
     if doc.workflow_state == "Management Approval Pending":
-        doc.add_comment(text="{0} has send the {1} for management approval pending".format(
-            usr, doctype_name), comment_email=frappe.session.user, comment_by=usr_name)
+        doc.add_comment(text="{} has send the purchase order for management approval pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
     if doc.workflow_state == "Approved" or doc.workflow_state == "Approved By Management":
-        doc.add_comment(text="{0} has approved the {1}".format(
-            usr, doctype_name), comment_email=frappe.session.user, comment_by=usr_name)
+        doc.add_comment(text="{} has approved the purchase order".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
     if doc.workflow_state == "On Hold By Department Head" or doc.workflow_state == "On Hold By Management":
-        doc.add_comment(text="{0} has kept the {1} on Hold".format(
-            usr, doctype_name), comment_email=frappe.session.user, comment_by=usr_name)
+        doc.add_comment(text="{} has kept the purchase order on Hold".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
     if doc.workflow_state == "Rejected By Department Head" or doc.workflow_state == "Rejected By Management":
-        doc.add_comment(text="{0} has rejected the {1}".format(
-            usr, doctype_name), comment_email=frappe.session.user, comment_by=usr_name)
+        doc.add_comment(text="{} has rejected the purchase order".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
     if doc.workflow_state == "Submitted":
-        doc.add_comment(text="{0} has submitted the {1}".format(
-            usr, doctype_name), comment_email=frappe.session.user, comment_by=usr_name)
+        doc.add_comment(text="{} has submitted the purchase order".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
     if doc.workflow_state == "Cancelled":
-        doc.add_comment(text="{0} has cancelled the {1}".format(
-            usr, doctype_name), comment_email=frappe.session.user, comment_by=usr_name)
-
-
-# Workflowchangecomment copy
-# @frappe.whitelist()
-# def workflow_changed_comment(doc_name):
-#     usr_name = frappe.get_doc("User",frappe.session.user).full_name
-#     usr = frappe.utils.get_link_to_form("User",frappe.session.user,usr_name)
-#     doc = frappe.get_doc("Purchase Invoice",doc_name)
-#     if doc.workflow_state == "Verification Pending":
-#         doc.add_comment(text="{} has send the invoice for verification pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
-#     if doc.workflow_state == "Approval Pending":
-#         doc.add_comment(text="{} has send the invoice for approval pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
-#     if doc.workflow_state == "Management Approval Pending":
-#         doc.add_comment(text="{} has send the invoice for management approval pending".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
-#     if doc.workflow_state == "Approved" or doc.workflow_state == "Approved By Management":
-#         doc.add_comment(text="{} has approved the invoice".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
-#     if doc.workflow_state == "On Hold By Department Head" or doc.workflow_state == "On Hold By Management":
-#         doc.add_comment(text="{} has kept the invoice on Hold".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
-#     if doc.workflow_state == "Rejected By Department Head" or doc.workflow_state == "Rejected By Management":
-#         doc.add_comment(text="{} has rejected the invoice".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
-#     if doc.workflow_state == "Submitted":
-#         doc.add_comment(text="{} has submitted the invoice".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
-#     if doc.workflow_state == "Cancelled":
-#         doc.add_comment(text="{} has cancelled the invoice".format(usr), comment_email=frappe.session.user, comment_by=usr_name)
-
-# Test
-# @frappe.whitelist()
-# def set_workflow_state_to_draft(reference_doctype, reference_name):
-#     frappe.db.set_value(reference_doctype, reference_name, 'workflow_state', 'Draft')
-#     frappe.db.commit()
-
-    # Workflow state not allowed from created to Draft
-    # doc = frappe.get_doc(reference_doctype, reference_name)
-    # doc.workflow_state = 'Draft'
-    # doc.insert(ignore_permissions=True)
-    # doc.reload()
-
-    # frappe.msgprint("Workflow Changed SuccessFully")
+        doc.add_comment(text="{} has cancelled the purchase order".format(usr), comment_email=frappe.session.user, comment_by=usr_name)

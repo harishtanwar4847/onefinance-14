@@ -34,6 +34,12 @@ frappe.ui.form.on('Purchase Invoice', {
         })
     },
 
+    validate: function(frm){
+        if( /[^a-zA-Z0-9\-\/]/.test( frm.doc.bill_no ) ) {
+            frappe.throw("Special characters not allowed in Supplier Invoice No")
+        }
+    },
+
     before_workflow_action: (frm) => {
         if (frm.selected_workflow_action === "Hold") {
 

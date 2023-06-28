@@ -178,35 +178,35 @@ def reminders_at_ten():
 
 def reminders_at_nine():
     ## Bank MIS
-    payment_entries = frappe.db.sql("""select count(name) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.workflow_state = 'Submitted'""")
+    payment_entries = frappe.db.sql("""select count(name) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.workflow_state = 'Submitted'""")
     
     if payment_entries[0][0] >= 1:
         payment_entry_amounts = frappe.db.sql("""select
         sum(p.paid_amount) as "Total Amount Paid By Bank::250",
-        (select sum(p.paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")) and p.workflow_state = "Submitted") as "Amount Paid Through Approval System-Purchase Invoice::250",
-        (select sum(paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and (not exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent) or exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype != "Purchase Invoice" and r.reference_doctype != "Purchase Order" and r.reference_doctype != "Journal Entry"))) and p.workflow_state = "Submitted") as "Amount Paid Wthout Approval System::250"
-        from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.workflow_state = 'Submitted'""")
+        (select sum(p.paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")) and p.workflow_state = "Submitted") as "Amount Paid Through Approval System-Purchase Invoice::250",
+        (select sum(paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and (not exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent) or exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype != "Purchase Invoice" and r.reference_doctype != "Purchase Order" and r.reference_doctype != "Journal Entry"))) and p.workflow_state = "Submitted") as "Amount Paid Wthout Approval System::250"
+        from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.workflow_state = 'Submitted'""")
 
         if payment_entry_amounts[0][0] != None and payment_entry_amounts[0][1] != None and payment_entry_amounts[0][2] != None:
             payment_entry_amount = frappe.db.sql("""select
             sum(p.paid_amount) as "Total Amount Paid By Bank::250",
-            (select sum(p.paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")) and p.workflow_state = "Submitted") as "Amount Paid Through Approval System-Purchase Invoice::250",
-            (select sum(paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and (not exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent) or exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype != "Purchase Invoice" and r.reference_doctype != "Purchase Order" and r.reference_doctype != "Journal Entry"))) and p.workflow_state = "Submitted") as "Amount Paid Wthout Approval System::250"
-            from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.workflow_state = 'Submitted'""")
+            (select sum(p.paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")) and p.workflow_state = "Submitted") as "Amount Paid Through Approval System-Purchase Invoice::250",
+            (select sum(paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and (not exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent) or exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype != "Purchase Invoice" and r.reference_doctype != "Purchase Order" and r.reference_doctype != "Journal Entry"))) and p.workflow_state = "Submitted") as "Amount Paid Wthout Approval System::250"
+            from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.workflow_state = 'Submitted'""")
 
         if payment_entry_amounts[0][0] != None and payment_entry_amounts[0][1] == None and payment_entry_amounts[0][2] != None:
             payment_entry_amount = frappe.db.sql("""select
             sum(p.paid_amount) as "Total Amount Paid By Bank::250",
             0 as "Amount Paid Through Approval System-Purchase Invoice::250",
-            (select sum(paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and (not exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent) or exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype != "Purchase Invoice" and r.reference_doctype != "Purchase Order" and r.reference_doctype != "Journal Entry"))) and p.workflow_state = "Submitted") as "Amount Paid Wthout Approval System::250"
-            from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.workflow_state = 'Submitted'""")
+            (select sum(paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and (not exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent) or exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype != "Purchase Invoice" and r.reference_doctype != "Purchase Order" and r.reference_doctype != "Journal Entry"))) and p.workflow_state = "Submitted") as "Amount Paid Wthout Approval System::250"
+            from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.workflow_state = 'Submitted'""")
 
         if payment_entry_amounts[0][0] != None and payment_entry_amounts[0][1] != None and payment_entry_amounts[0][2] == None:
             payment_entry_amount = frappe.db.sql("""select
             sum(p.paid_amount) as "Total Amount Paid By Bank::250",
-            (select sum(p.paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")) and p.workflow_state = "Submitted") as "Amount Paid Through Approval System-Purchase Invoice::250",
+            (select sum(p.paid_amount) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")) and p.workflow_state = "Submitted") as "Amount Paid Through Approval System-Purchase Invoice::250",
             0 as "Amount Paid Wthout Approval System::250"
-            from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.workflow_state = 'Submitted'""")
+            from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.workflow_state = 'Submitted'""")
 
     else:
         payment_entry_amount = ((0,0,0),)
@@ -219,7 +219,7 @@ def reminders_at_nine():
     description =[]
     supplier_list = []
     reference_date = []
-    payment_entry_name = frappe.db.sql("""select p.name,p.paid_amount,p.party_name,p.reference_date from `tabPayment Entry` p where p.submitted_date = CURDATE() and exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")) and p.workflow_state = "Submitted" """)
+    payment_entry_name = frappe.db.sql("""select p.name,p.paid_amount,p.party_name,p.reference_date from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")) and p.workflow_state = "Submitted" """)
     
     for i in payment_entry_name:
         purchase_invoice_name = frappe.db.sql("""select r.reference_name,r.allocated_amount,r.approver,r.description from `tabPayment Entry Reference` r where r.parent=%s and (r.reference_doctype="Purchase Invoice" or r.reference_doctype="Purchase Order" or r.reference_doctype="Journal Entry")""",(i[0]))
@@ -232,10 +232,10 @@ def reminders_at_nine():
             reference_date.append(i[3])
     zip_list = list(zip(purchase_invoice_names,payment_entry_amount_list,supplier_list,approver,description,reference_date))
 
-    payment_entry_name_without_approval = frappe.db.sql("""select p.approver,p.paid_amount,p.party_name,p.remarks,p.reference_date from `tabPayment Entry` p where p.submitted_date = CURDATE() and (not exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent) or exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype != "Purchase Invoice" and r.reference_doctype != "Purchase Order" and r.reference_doctype != "Journal Entry"))) and p.workflow_state = "Submitted" """)
+    payment_entry_name_without_approval = frappe.db.sql("""select p.approver,p.paid_amount,p.party_name,p.remarks,p.reference_date from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and (not exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent) or exists(select r.reference_doctype from `tabPayment Entry Reference` r where p.name=r.parent and (r.reference_doctype != "Purchase Invoice" and r.reference_doctype != "Purchase Order" and r.reference_doctype != "Journal Entry"))) and p.workflow_state = "Submitted" """)
     print(payment_entry_name_without_approval, "payment_entry_name_without_approval")
 
-    journal_entry_name = frappe.db.sql("""select p.name,p.cheque_date,p.approver,p.user_remark from `tabJournal Entry` p where p.submitted_date = CURDATE() and p.docstatus = 1 and p.voucher_type = 'Bank Entry' and p.mis = 1 """)
+    journal_entry_name = frappe.db.sql("""select p.name,p.cheque_date,p.approver,p.user_remark from `tabJournal Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.docstatus = 1 and p.voucher_type = 'Bank Entry' and p.mis = 1 """)
     journal_entry_without_approvals = []
     journal_entry_amount_list = []
     approver_2 = []
@@ -299,7 +299,7 @@ def reminders_at_nine():
     frappe.sendmail(subject="MIS Report - Bank Payment", content=msg_today, recipients = '{},{},{},{},{}'.format("dipen.bhanushali@1finance.co.in","mohan@1finance.co.in","accounts@1finance.co.in","dilip.jaiswar@1finance.co.in","harish.tanwar@atriina.com"))
     
     ## Credit Card MIS
-    journal_entry_name_credit_card = frappe.db.sql("""select p.name,p.cheque_date,p.approver,p.user_remark from `tabJournal Entry` p where p.submitted_date = CURDATE() and p.docstatus = 1 and p.voucher_type = 'Journal Entry' and p.in_credit_card_mis = 1 """)
+    journal_entry_name_credit_card = frappe.db.sql("""select p.name,p.cheque_date,p.approver,p.user_remark from `tabJournal Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.docstatus = 1 and p.voucher_type = 'Journal Entry' and p.in_credit_card_mis = 1 """)
     journal_entry_without_approvals_credit_card = []
     journal_entry_amount_list_credit_card = []
     approver_2_credit_card = []

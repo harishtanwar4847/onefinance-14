@@ -197,7 +197,7 @@ def get_data(filters):
 		null as "Bene Address 5",
 		p.bill_no as "Instruction Reference Number",
 		p.bill_no as "Customer Reference Number",
-		null as "Payment details 1",
+		p.name as "Payment details 1",
 		null as "Payment details 2",
 		null as "Payment details 3",
 		null as "Payment details 4",
@@ -212,8 +212,40 @@ def get_data(filters):
 		ba.branch_name as "Bene Bank Branch Name",
 		ba.beneficiary_email_id as "Beneficiary email id"
 		from `tabPurchase Invoice` p join `tabBank Account` ba on p.supplier = ba.party {conditions} and p.outstanding_amount !=0
-		group by p.name;
+		group by p.name
+		union
+		select 
+		ba.transaction_type as "Transaction Type",
+		ba.beneficiary_code as "Beneficiary Code",
+		ba.bank_account_no as "Beneficiary Account Number",
+		(CAST(ps.payment_amount as INT)) as "Instrument amount",
+		ba.account_name as "Beneficiary Name",
+		null as "Drawee Location",
+		null as "Print Location",
+		null as "Bene Address 1",
+		null as "Bene Address 2",
+		null as "Bene Address 3",
+		null as "Bene Address 4",
+		null as "Bene Address 5",
+		p.po_no as "Instruction Reference Number",
+		p.po_no as "Customer Reference Number",
+		p.name as "Payment details 1",
+		null as "Payment details 2",
+		null as "Payment details 3",
+		null as "Payment details 4",
+		null as "Payment details 5",
+		null as "Payment details 6",
+		null as "Payment details 7",
+		null as "Cheque Number",
+		date_format(CURDATE(), "%%d/%%m/%%Y") as "Chq / Trn Date",
+		null as "MICR Number",
+		ba.branch_code as "IFC Code",
+		ba.bank as "Bene Bank Name",
+		ba.branch_name as "Bene Bank Branch Name",
+		ba.beneficiary_email_id as "Beneficiary email id"
+		from `tabPurchase Order` p join `tabPayment Schedule` ps on p.name=ps.parent join `tabBank Account` ba on p.supplier = ba.party {conditions} and (p.grand_total - p.advance_paid) !=0 and is_approval_required = 1;
 		""".format(conditions=get_conditions(filters)),filters)
+
 
 def get_conditions(filters):
 	conditions = []

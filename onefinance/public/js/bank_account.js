@@ -18,6 +18,24 @@ frappe.ui.form.on('Bank Account', {
         if (frm.doc.bank!==undefined && frm.doc.bank.length>100){
             frappe.throw("Length of bank name cannot be greater than 100")
         }
+        if (frm.doc.account_name.includes(",")){
+            frappe.throw("Please remove comma(,) from Account Name")
+        }
+        if (frm.doc.bank.includes(",")){
+            frappe.throw("Please remove comma(,) from Bank")
+        }
+        if (frm.doc.beneficiary_email_id.includes(",")){
+            frappe.throw("Please remove comma(,) from Beneficiary Email ID")
+        }
+        if (frm.doc.beneficiary_code.includes(",")){
+            frappe.throw("Please remove comma(,) from Beneficiary Code")
+        }
+        if (frm.doc.bank_account_no.includes(",")){
+            frappe.throw("Please remove comma(,) from Bank Account No")
+        }
+        if (frm.doc.branch_code.includes(",")){
+            frappe.throw("Please remove comma(,) from IFSC Code")
+        }
         if (frm.doc.branch_name.includes(",")){
             frappe.throw("Please remove comma(,) from Branch Name")
         }

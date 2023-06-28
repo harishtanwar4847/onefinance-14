@@ -34,6 +34,12 @@ frappe.ui.form.on('Purchase Order', {
         })
     },
 
+    validate: function(frm){
+        if (frm.doc.po_no.includes(",")){
+            frappe.throw("Please remove comma(,) from PO No")
+        }
+    },
+
     before_workflow_action: (frm) => {
         if (frm.selected_workflow_action === "Hold") {
 
@@ -136,7 +142,7 @@ frappe.ui.form.on('Purchase Order', {
 
     after_workflow_action: (frm) => {
         frappe.call({
-            method: "onefinance.utils.workflow_changed_comment",
+            method: "onefinance.utils.workflow_changed_comment_order",
             args: {
                 doc_name: frm.doc.name,
                 doctype_name : 'Purchase Order'

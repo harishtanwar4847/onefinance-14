@@ -56,6 +56,7 @@
    "report_hide": 0,
    "reqd": 0,
    "search_index": 0,
+   "sort_options": 0,
    "translatable": 0,
    "unique": 0,
    "width": null
@@ -116,6 +117,7 @@
    "report_hide": 0,
    "reqd": 0,
    "search_index": 0,
+   "sort_options": 0,
    "translatable": 0,
    "unique": 0,
    "width": null
@@ -176,6 +178,7 @@
    "report_hide": 0,
    "reqd": 0,
    "search_index": 0,
+   "sort_options": 0,
    "translatable": 0,
    "unique": 0,
    "width": null
@@ -236,6 +239,7 @@
    "report_hide": 0,
    "reqd": 0,
    "search_index": 0,
+   "sort_options": 0,
    "translatable": 0,
    "unique": 0,
    "width": null
@@ -296,6 +300,7 @@
    "report_hide": 0,
    "reqd": 0,
    "search_index": 0,
+   "sort_options": 0,
    "translatable": 0,
    "unique": 0,
    "width": null
@@ -356,6 +361,7 @@
    "report_hide": 0,
    "reqd": 0,
    "search_index": 0,
+   "sort_options": 0,
    "translatable": 0,
    "unique": 0,
    "width": null
@@ -416,6 +422,7 @@
    "report_hide": 0,
    "reqd": 0,
    "search_index": 0,
+   "sort_options": 0,
    "translatable": 0,
    "unique": 0,
    "width": null
@@ -613,6 +620,38 @@
    "share": 0,
    "submit": 0,
    "write": 0
+  },
+  {
+   "_assign": null,
+   "_comments": null,
+   "_liked_by": null,
+   "_user_tags": null,
+   "amend": 0,
+   "cancel": 0,
+   "create": 1,
+   "creation": "2023-06-27 10:14:38.958662",
+   "delete": 0,
+   "docstatus": 0,
+   "email": 1,
+   "export": 1,
+   "idx": 0,
+   "if_owner": 0,
+   "import": 0,
+   "modified": "2023-06-27 10:14:38.958662",
+   "modified_by": "Administrator",
+   "name": "5ff0cef211",
+   "owner": "Administrator",
+   "parent": "Cost Center",
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Department Head",
+   "select": 0,
+   "set_user_permissions": 0,
+   "share": 0,
+   "submit": 0,
+   "write": 1
   }
  ],
  "doctype": "Cost Center",

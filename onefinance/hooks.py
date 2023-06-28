@@ -38,7 +38,8 @@ doctype_js = {
 	"Purchase Invoice" : "public/js/purchase_invoice.js",
 	"Purchase Order" : "public/js/purchase_order.js",
 	"Cost Center" : "public/js/cost_center.js",
- 	"Bank Account" : "public/js/bank_account.js"
+ 	"Bank Account" : "public/js/bank_account.js",
+	"Contract" : "public/js/contract.js"
 	
 	}
 
@@ -102,9 +103,10 @@ doctype_js = {
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	# "ToDo": "custom_app.overrides.CustomToDo"
+	"Contract": "onefinance.onefinance.override.contract.CustomContract",
+}
 
 # Document Events
 # ---------------
@@ -112,19 +114,30 @@ doctype_js = {
 
 doc_events = {
  	"Payment Entry": {
- 		"on_submit": "onefinance.utils.on_submit",
+ 		"on_submit": "onefinance.utils.on_submit_payment",
+		"before_save" : "onefinance.utils.before_save",
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
+	},
+	"Journal Entry": {
+ 		"on_submit": "onefinance.utils.on_submit_journal"
 	},
 	"Vendor": {
 		"on_update": "onefinance.utils.on_update_vendor"
 	},
 	"Purchase Invoice":{
-		"before_save":"onefinance.utils.on_update_purchase_invoice"
+		"before_save":"onefinance.utils.on_update_purchase_invoice",
+		"validate": "onefinance.onefinance.override.purchase_invoice.validate_purchase_invoice"
 	},
 	#Set Checker Field = session.user
  	"Purchase Order":{
 		"before_save":"onefinance.utils.on_update_purchase_order"
+	},
+	"File":{
+		"after_insert":"onefinance.tasks.create_payment_entry"
+	},
+	"Contract": {
+		"validate": "onefinance.onefinance.override.contract_validate.validate_amount",		
 	}
 }
 
@@ -132,7 +145,9 @@ doc_events = {
 # ---------------
 
 scheduler_events = {
-    "cron":{"30 09 * * *": ["onefinance.tasks.reminders_at_ten"]},
+    "cron":{"30 09 * * *": ["onefinance.tasks.reminders_at_ten"],
+			"00 21 * * *": ["onefinance.tasks.reminders_at_nine"],
+			"55 09 * * *": ["onefinance.tasks.reminders_for_contract"]},
 #	"all": [
 #		"onefinance.tasks.all"
 #	],

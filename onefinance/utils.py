@@ -110,6 +110,11 @@ def on_submit_payment(doc, method):
     frappe.db.set_value('Payment Entry', {'name': doc.name}, 'submitted_date', frappe.utils.today())
     approver_name = frappe.db.get_value('User', {'name':doc.approver_id}, 'full_name')
     frappe.db.set_value('Payment Entry', {'name': doc.name}, 'approver', approver_name)
+    if doc.amended_from != None:
+        amended_date = frappe.db.get_value('Payment Entry', {'name':doc.amended_from}, 'submitted_date')
+        frappe.db.set_value('Payment Entry', {'name': doc.name}, 'amended_from_submitted_date', amended_date)
+    else:
+        frappe.db.set_value('Payment Entry', {'name': doc.name}, 'amended_from_submitted_date', frappe.utils.today())
     frappe.db.commit()
     doc.reload()  
 
@@ -117,6 +122,11 @@ def on_submit_journal(doc,method):
     frappe.db.set_value('Journal Entry', {'name': doc.name}, 'submitted_date', frappe.utils.today())
     approver_name = frappe.db.get_value('User', {'name':doc.approver_id}, 'full_name')
     frappe.db.set_value('Journal Entry', {'name': doc.name}, 'approver', approver_name)
+    if doc.amended_from != None:
+        amended_date = frappe.db.get_value('Journal Entry', {'name':doc.amended_from}, 'submitted_date')
+        frappe.db.set_value('Journal Entry', {'name': doc.name}, 'amended_from_submitted_date', amended_date)
+    else:
+        frappe.db.set_value('Journal Entry', {'name': doc.name}, 'amended_from_submitted_date', frappe.utils.today())
     frappe.db.commit()
     doc.reload()  
 

@@ -2,6 +2,19 @@
 
 ### Added
 
+## [v1.0.1] - 2023-06-29
+## [v1.0.1-uat] - 2023-06-28
+
+- [ MIS report fiexes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/2)
+
+### Added
+
+## [v1.0.0-uat] - 2023-06-28
+
+- [ March to June v13 changes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/1)
+
+### Added
+
 ## [v0.1.4] - 2023-03-15
 ## [v0.1.4-uat] - 2023-03-13
 

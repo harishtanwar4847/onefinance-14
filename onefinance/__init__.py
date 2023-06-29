@@ -1,4 +1,4 @@
-__version__ = '0.1.4'
+__version__ = '1.0.1'
 
 
 import frappe
@@ -17,10 +17,6 @@ from frappe.workflow.doctype.workflow_action.workflow_action import get_common_e
 from frappe.workflow.doctype.workflow_action.workflow_action import return_action_confirmation_page as return_action_confirmation_page_frappe
 from frappe.workflow.doctype.workflow_action.workflow_action import return_success_page as return_success_page_frappe
 from frappe.workflow.doctype.workflow_action.workflow_action import confirm_action as confirm_action_frappe
-
-
-
-
 
 
 def get_common_email_args_custom(doc, attachments=None):
@@ -164,6 +160,7 @@ def send_workflow_action_email_custom(users_data, doc):
             break
 
     if doc.workflow_state == "Management Approval Pending" or doc.workflow_state == "On Hold By Management":
+        print("###############################3")
         message = common_args.pop('message', None)
         for d in users_data:
             email_args = {
@@ -180,6 +177,8 @@ def send_workflow_action_email_custom(users_data, doc):
             break
 
     if doc.workflow_state == "Approved" or doc.workflow_state == "Approved By Management" or doc.workflow_state == "Rejected" or doc.workflow_state == "Rejected By Management":
+        print("###############################3")
+
         message = common_args.pop('message', None)
         for d in users_data:
             email_args = {
@@ -242,33 +241,6 @@ def process_workflow_actions_custom(doc, state):
 
 
 def return_action_confirmation_page_custom(doc, action, action_link, alert_doc_change=False):
-    # # return action for confrim_action_page_custom for Purchase Order.
-    # doctype = doc.get('doctype')
-    # docname = doc.get('name')
-    # print("Doc", doc)
-    # if doctype == "Purchase Order":
-    #     template_params = {
-    #         'title': doc.get('name'),
-    #         'doctype': doc.get('doctype'),
-    #         'docname': doc.get('name'),
-    #         'action': action,
-    #         'action_link': action_link,
-    #         'alert_doc_change': alert_doc_change
-    #     }
-
-    #     # template_params['pdf_link'] = get_pdf_link(doc.get('doctype'), doc.get('name'))
-
-    #     frappe.respond_as_web_page(title=None,
-    #                                html=None,
-    #                                indicator_color='blue',
-    #                                template='confirm_action_custom',
-    #                                context=template_params)
-
-    # else:
-    #     return_action_confirmation_page_frappe(
-    #         doc, action, action_link, alert_doc_change=False)
-    # # Return action for confirm action page custom For Purchase Order
-
     doctype = doc.get('doctype')
     docname = doc.get('name')
     print("Doc", doc)
@@ -282,8 +254,6 @@ def return_action_confirmation_page_custom(doc, action, action_link, alert_doc_c
             'alert_doc_change': alert_doc_change
         }
 
-        # template_params['pdf_link'] = get_pdf_link(doc.get('doctype'), doc.get('name'))
-
         frappe.respond_as_web_page(title=None,
                                    html=None,
                                    indicator_color='blue',
@@ -294,23 +264,9 @@ def return_action_confirmation_page_custom(doc, action, action_link, alert_doc_c
         return_action_confirmation_page_frappe(
             doc, action, action_link, alert_doc_change=False)
 
-# def return_success_page_custom(doc):
-#     if doc.get('doctype') == "Purchase Invoice":
-#         if get_doc_workflow_state(doc) == "Approved" or get_doc_workflow_state(doc) == "Approval Pending" or get_doc_workflow_state(doc) == "Management Approval Pending" or get_doc_workflow_state(doc) == "Approved By Management" or get_doc_workflow_state(doc) == "Submitted":
-#             frappe.respond_as_web_page(_("Success"),
-#                                        _("""<script>setTimeout("window.close()", 2000)</script><div align="center"><b>Thank you!</b><br><br><img src="https://w7.pngwing.com/pngs/179/1015/png-transparent-computer-icons-check-mark-adobe-acrobat-green-tick-trademark-logo-grass.png" alt="Thank You!" width="100" height="200"></div>"""), indicator_color='green')
-#         if get_doc_workflow_state(doc) == "Rejected" or get_doc_workflow_state(doc) == "Rejected By Management":
-#             frappe.respond_as_web_page(_("Success"),
-#                                        _("""<script>setTimeout("window.close()", 2000)</script><div align="center"><b>You have rejected the invoice</b><br><br><img src="https://w7.pngwing.com/pngs/175/854/png-transparent-computer-icons-button-check-mark-cross-red-cross-photography-trademark-logo.png" alt="Thank You!" width="100" height="200"></div>"""), indicator_color='green')
 
-#         if get_doc_workflow_state(doc) == "On Hold By Department Head" or get_doc_workflow_state(doc) == "On Hold By Management":
-#             frappe.respond_as_web_page(_("Success"),
-#                                        _("""<script>setTimeout("window.close()", 2000)</script><div align="center"><b>The invoice has been kept on hold</b><br><br><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmNCSC6w0QhhDMF7fYsIlhP6NwcmicMzA5zg&usqp=CAU" alt="Thank You!" width="100" height="200"></div>"""), indicator_color='green')
-
-#     else:
-#         return_success_page_frappe(doc)
 def return_success_page_custom(doc):
-    if doc.get('doctype') == "Purchase Invoice" or doc.get('doctype') == 'Purchase Order':
+    if doc.get('doctype') == "Purchase Invoice":
         if get_doc_workflow_state(doc) == "Approved" or get_doc_workflow_state(doc) == "Approval Pending" or get_doc_workflow_state(doc) == "Management Approval Pending" or get_doc_workflow_state(doc) == "Approved By Management" or get_doc_workflow_state(doc) == "Submitted":
             frappe.respond_as_web_page(_("Success"),
                                        _("""<div align="center"><b>Thank you!</b><br><br><img src="https://w7.pngwing.com/pngs/179/1015/png-transparent-computer-icons-check-mark-adobe-acrobat-green-tick-trademark-logo-grass.png" alt="Thank You!" width="100" height="200"></div><script>setTimeout("window.close()", 2000)</script>"""), indicator_color='green')
@@ -319,18 +275,29 @@ def return_success_page_custom(doc):
                                        _("""<div align="center"><b>You have rejected the invoice</b><br><br><img src="https://w7.pngwing.com/pngs/175/854/png-transparent-computer-icons-button-check-mark-cross-red-cross-photography-trademark-logo.png" alt="Thank You!" width="100" height="200"></div><script>setTimeout("window.close()", 2000)</script>"""), indicator_color='green')
 
         if get_doc_workflow_state(doc) == "On Hold By Department Head" or get_doc_workflow_state(doc) == "On Hold By Management":
+            print("hjjjjjjjjjjjj")
             frappe.respond_as_web_page(_("Success"),
                                        _("""<div align="center"><b>The invoice has been kept on hold</b><br><br><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmNCSC6w0QhhDMF7fYsIlhP6NwcmicMzA5zg&usqp=CAU" alt="Thank You!" width="100" height="200"></div><script>setTimeout("window.close()", 2000)</script>"""), indicator_color='green')
+            print("hjjjjjjjjjj")
+    elif doc.get('doctype') == "Purchase Order":
+        if get_doc_workflow_state(doc) == "Approved" or get_doc_workflow_state(doc) == "Approval Pending" or get_doc_workflow_state(doc) == "Management Approval Pending" or get_doc_workflow_state(doc) == "Approved By Management" or get_doc_workflow_state(doc) == "Submitted":
+            frappe.respond_as_web_page(_("Success"),
+                                       _("""<div align="center"><b>Thank you!</b><br><br><img src="https://w7.pngwing.com/pngs/179/1015/png-transparent-computer-icons-check-mark-adobe-acrobat-green-tick-trademark-logo-grass.png" alt="Thank You!" width="100" height="200"></div><script>setTimeout("window.close()", 2000)</script>"""), indicator_color='green')
+        if get_doc_workflow_state(doc) == "Rejected" or get_doc_workflow_state(doc) == "Rejected By Management":
+            frappe.respond_as_web_page(_("Success"),
+                                       _("""<div align="center"><b>You have rejected the purchase order</b><br><br><img src="https://w7.pngwing.com/pngs/175/854/png-transparent-computer-icons-button-check-mark-cross-red-cross-photography-trademark-logo.png" alt="Thank You!" width="100" height="200"></div><script>setTimeout("window.close()", 2000)</script>"""), indicator_color='green')
+
+        if get_doc_workflow_state(doc) == "On Hold By Department Head" or get_doc_workflow_state(doc) == "On Hold By Management":
+            frappe.respond_as_web_page(_("Success"),
+                                       _("""<div align="center"><b>The purchase order has been kept on hold</b><br><br><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmNCSC6w0QhhDMF7fYsIlhP6NwcmicMzA5zg&usqp=CAU" alt="Thank You!" width="100" height="200"></div><script>setTimeout("window.close()", 2000)</script>"""), indicator_color='green')
 
     else:
         return_success_page_frappe(doc)
 
-# /api/method/frappe.workflow.doctype.workflow_action.workflow_action.confirm_action?action=Hold&doctype=Purchase+Invoice&docname=ACC-PINV-2023-00022&user=harish.tanwar%40atriiina.com&_signature=9f114f66ee19d0cfd581bed10572b0ba
-
 
 @frappe.whitelist(allow_guest=True)
 def confirm_action_custom(**kwargs):
-    if frappe.local.form_dict.doctype == "Purchase Invoice" or frappe.local.form_dict.doctype == "Purchase Order":
+    if frappe.local.form_dict.doctype == "Purchase Invoice":
         doctype = frappe.local.form_dict.doctype
         docname = frappe.local.form_dict.docname
         action = frappe.local.form_dict.action
@@ -508,6 +475,186 @@ def confirm_action_custom(**kwargs):
             # reset session user
             if logged_in_user == 'Guest':
                 frappe.set_user(logged_in_user)
+
+    if frappe.local.form_dict.doctype == "Purchase Order":
+        doctype = frappe.local.form_dict.doctype
+        docname = frappe.local.form_dict.docname
+        action = frappe.local.form_dict.action
+        user = frappe.local.form_dict.user
+        reason_hold = frappe.local.form_dict.hold
+        release_date = frappe.local.form_dict.date
+        reason_reject = frappe.local.form_dict.reject
+        if action == "Hold":
+            # if not verify_request():
+            # 	return
+
+            logged_in_user = frappe.session.user
+            if logged_in_user == 'Guest' and user:
+                # to allow user to apply action without login
+                frappe.set_user(user)
+
+            doc = frappe.get_doc(doctype, docname)
+            if doc:
+                if doc.workflow_state == "Approval Pending":
+                    usr_name = frappe.get_doc(
+                        "User", doc.cost_center_department_head).full_name
+                    usr = frappe.utils.get_link_to_form(
+                        "User", doc.cost_center_department_head, usr_name)
+                    doc.add_comment(text="{} has kept the purchase order on Hold".format(
+                        usr), comment_email=doc.cost_center_department_head, comment_by=usr_name)
+                    doc.on_hold = 1
+                    doc.release_date = release_date
+                    doc.hold_comment = reason_hold
+                    doc.save()
+                if doc.workflow_state == "Management Approval Pending":
+                    usr_name = frappe.get_doc(
+                        "User", doc.cost_center_manager).full_name
+                    usr = frappe.utils.get_link_to_form(
+                        "User", doc.cost_center_manager, usr_name)
+                    doc.add_comment(text="{} has kept the purchase order on Hold".format(
+                        usr), comment_email=doc.cost_center_manager, comment_by=usr_name)
+                    doc.on_hold = 1
+                    doc.release_date = release_date
+                    doc.hold_comment = reason_hold
+                    doc.save()
+
+            newdoc = apply_workflow(doc, action)
+            frappe.db.commit()
+            return_success_page_custom(newdoc)
+
+            # reset session user
+            if logged_in_user == 'Guest':
+                frappe.set_user(logged_in_user)
+
+        if action == "Reject":
+            # if not verify_request():
+            # 	return
+
+            logged_in_user = frappe.session.user
+            if logged_in_user == 'Guest' and user:
+                # to allow user to apply action without login
+                frappe.set_user(user)
+            doc = frappe.get_doc(doctype, docname)
+            if doc:
+                if doc.workflow_state == "Approval Pending":
+                    usr_name = frappe.get_doc(
+                        "User", doc.cost_center_department_head).full_name
+                    usr = frappe.utils.get_link_to_form(
+                        "User", doc.cost_center_department_head, usr_name)
+                    doc.add_comment(text="{} has rejected the purchase order".format(
+                        usr), comment_email=doc.cost_center_department_head, comment_by=usr_name)
+                    doc.reason_of_rejection = reason_reject
+                    doc.save()
+
+                if doc.workflow_state == "Management Approval Pending":
+                    usr_name = frappe.get_doc(
+                        "User", doc.cost_center_manager).full_name
+                    usr = frappe.utils.get_link_to_form(
+                        "User", doc.cost_center_manager, usr_name)
+                    doc.add_comment(text="{} has rejected the purchase order".format(
+                        usr), comment_email=doc.cost_center_manager, comment_by=usr_name)
+                    doc.reason_of_rejection = reason_reject
+                    doc.save()
+
+            newdoc = apply_workflow(doc, action)
+            frappe.db.commit()
+            return_success_page_custom(newdoc)
+
+            # reset session user
+            if logged_in_user == 'Guest':
+                frappe.set_user(logged_in_user)
+
+        if action == "Approve":
+            # if not verify_request():
+            # 	return
+
+            logged_in_user = frappe.session.user
+            if logged_in_user == 'Guest' and user:
+                # to allow user to apply action without login
+                frappe.set_user(user)
+
+            doc = frappe.get_doc(doctype, docname)
+            if doc:
+                if doc.workflow_state == "Approval Pending":
+                    usr_name = frappe.get_doc(
+                        "User", doc.cost_center_department_head).full_name
+                    usr = frappe.utils.get_link_to_form(
+                        "User", doc.cost_center_department_head, usr_name)
+                    doc.add_comment(text="{} has approved the purchase order".format(
+                        usr), comment_email=doc.cost_center_department_head, comment_by=usr_name)
+                if doc.workflow_state == "Management Approval Pending":
+                    usr_name = frappe.get_doc(
+                        "User", doc.cost_center_manager).full_name
+                    usr = frappe.utils.get_link_to_form(
+                        "User", doc.cost_center_manager, usr_name)
+                    doc.add_comment(text="{} has approved the purchase order".format(
+                        usr), comment_email=doc.cost_center_manager, comment_by=usr_name)
+
+            newdoc = apply_workflow(doc, action)
+            frappe.db.commit()
+            return_success_page_custom(newdoc)
+
+            # reset session user
+            if logged_in_user == 'Guest':
+                frappe.set_user(logged_in_user)
+
+        if action == "Reopen":
+            # if not verify_request():
+            # 	return
+
+            logged_in_user = frappe.session.user
+            if logged_in_user == 'Guest' and user:
+                # to allow user to apply action without login
+                frappe.set_user(user)
+
+            doc = frappe.get_doc(doctype, docname)
+
+            if doc.workflow_state == "On Hold By Department Head":
+                usr_name = frappe.get_doc(
+                    "User", doc.cost_center_department_head).full_name
+                usr = frappe.utils.get_link_to_form(
+                    "User", doc.cost_center_department_head, usr_name)
+                doc.add_comment(text="{} has reopened the purchase order".format(
+                    usr), comment_email=doc.cost_center_department_head, comment_by=usr_name)
+            if doc.workflow_state == "On Hold By Management":
+                usr_name = frappe.get_doc(
+                    "User", doc.cost_center_manager).full_name
+                usr = frappe.utils.get_link_to_form(
+                    "User", doc.cost_center_manager, usr_name)
+                doc.add_comment(text="{} has reopened the purchase order".format(
+                    usr), comment_email=doc.cost_center_manager, comment_by=usr_name)
+
+            newdoc = apply_workflow(doc, action)
+            frappe.db.commit()
+            return_success_page_custom(newdoc)
+
+            # reset session user
+            if logged_in_user == 'Guest':
+                frappe.set_user(logged_in_user)
+
+        if action == "Submit":
+            # if not verify_request():
+            # 	return
+
+            logged_in_user = frappe.session.user
+            if logged_in_user == 'Guest' and user:
+                # to allow user to apply action without login
+                frappe.set_user(user)
+
+            doc = frappe.get_doc(doctype, docname)
+            usr_name = frappe.get_doc("User", user).full_name
+            usr = frappe.utils.get_link_to_form("User", user, usr_name)
+            doc.add_comment(text="{} has submitted the purchase order".format(
+                usr), comment_email=user, comment_by=usr_name)
+
+            newdoc = apply_workflow(doc, action)
+            frappe.db.commit()
+            return_success_page_custom(newdoc)
+
+            # reset session user
+            if logged_in_user == 'Guest':
+                frappe.set_user(logged_in_user)
+
     else:
         confirm_action_frappe(frappe.local.form_dict.doctype, frappe.local.form_dict.docname,
                               frappe.local.form_dict.user, frappe.local.form_dict.action)
@@ -522,7 +669,7 @@ frappe.workflow.doctype.workflow_action.workflow_action.return_action_confirmati
 frappe.workflow.doctype.workflow_action.workflow_action.return_success_page = return_success_page_custom
 
 @frappe.whitelist(allow_guest=True)
-def collection_webhook(**kwargs):
+def collection_webhook_test(**kwargs):
     try:
         log = {
             "request": frappe.local.form_dict,
@@ -570,3 +717,131 @@ def create_log(log, file_name):
             + "\n\nFile name -\n{}\n\nLog details -\n{}".format(file_name, str(log)),
             title="Create Log Error",
         )
+
+class APIException(Exception):
+	"""
+	Base Exception for API Requests
+
+	Usage:
+	try:
+		...
+	except APIException as e:
+		return e.respond()
+	"""
+
+	http_status_code = 500
+	message = frappe._('Something went Wrong')
+	save_error_log = True
+	errors = {}
+	
+	def __init__(self, message=None, errors=None):
+		if message:
+			self.message = message
+		if errors:
+			self.errors = errors
+
+	def respond(self):
+		if self.save_error_log:
+			frappe.log_error()
+		return respond(status=self.http_status_code, message=self.message, errors=self.errors)
+
+
+class MethodNotAllowedException(APIException):
+	http_status_code = 405
+	message = frappe._('Method not allowed')
+	save_error_log = False
+
+
+class ValidationException(APIException):
+	http_status_code = 422
+	message = frappe._('Validation Error')
+	save_error_log = False
+
+	def __init__(self, errors, data=None):
+		errors_ = dict()
+		for key in errors.keys():
+			# getting first error message
+			errors_[key] = list(errors[key].values())[0]
+		self.errors = errors_
+		self.data = data
+
+import json
+from frappe.auth import CookieManager
+
+def respond(status=200, message='Success', data={}, errors={}):
+	response = frappe._dict({'message': frappe._(message)})
+	if data:
+		response['data'] = data
+	if errors:
+		response['errors'] = errors
+	frappe.local.response = response
+	frappe.local.response['http_status_code'] = status
+
+	frappe.local.cookie_manager = CookieManager()
+	frappe.local.cookie_manager.flush_cookies(response=frappe.local.response)
+	# return Response(response=json.dumps(response), status=status, content_type='application/json')
+
+def respondWithSuccess(status=200, message='Success', data={}):
+	return respond(status=status, message=message, data=data)
+
+def respondWithFailure(status=500, message='Something went wrong', data={}, errors={}):
+	return respond(status=status, message=message, data=data, errors=errors)
+
+def respondUnauthorized(status=401, message='Unauthorized'):
+	return respond(status=status, message=message)
+
+def respondForbidden(status=403, message='Forbidden'):
+	return respond(status=status, message=message)
+
+def respondNotFound(status=404, message='Not Found'):
+	return respond(status=status, message=message)
+
+@frappe.whitelist(allow_guest=True)
+def collection_webhook():
+	try:
+		log = {
+			"request": frappe.local.form_dict,
+			"headers": {k: v for k, v in frappe.local.request.headers.items()},
+		}
+		create_log(log, file_name="collection_webhook")
+		request_dict = frappe.local.form_dict.get("GenericCorporateAlertRequest")
+		request_keys = (request_dict.keys() >= {'Alert Sequence No', 'BenefDetails2', 'Debit/Credit', 'Amount', 'Remitter Name', 'Remitter Account', 'Remitter Bank', 'RemitterIFSC', 'ChequeNo', 'User Reference Number', 'Mnemonic Code', 'TransactionDescription', 'Transaction Date'})
+		print(request_keys)
+		frappe.session.user = "Administrator"
+
+		# if request_keys:
+		request_sequence_no = request_dict.get("Alert Sequence No")
+		# sequence_no = frappe.db.sql("""select count(alert_sequence_no) from `tabPayment Entry` where alert_sequence_no = %s""",request_sequence_no)
+		sequence_no = frappe.db.get_value("Payment Entry", {"alert_sequence_no": request_sequence_no}, "name")
+
+		print(sequence_no)
+		if not sequence_no:
+			pe = frappe.new_doc("Payment Entry")
+			pe.payment_type = "Pay"
+			pe.party_type = "Supplier"
+			pe.party = "Atrina Technologies Pvt. Ltd."
+			pe.party_name = "Atrina Technologies Pvt. Ltd."
+			pe.paid_from = "HDFC Bank Current A/C 5504 - 1F"
+			pe.paid_amount = float(request_dict.get("Amount"))
+			pe.received_amount = float(request_dict.get("Amount"))
+			pe.reference_no = "1234"
+			pe.reference_date = datetime.strptime("20-04-2023", '%d-%m-%Y')
+			pe.alert_sequence_no = request_dict.get("Alert Sequence No")
+			pe.save()
+			frappe.db.commit()
+			data = {"GenericCorporateAlertResponse":{"errorCode":"0","errorMessage": "Success","domainReferenceNo":request_dict.get("Alert Sequence No")}}
+
+			return respondWithSuccess(message="Success", data = data)
+
+		else:
+			data = {"GenericCorporateAlertResponse":{"errorCode":"0","errorMessage": "Duplicate","domainReferenceNo":request_dict.get("Alert Sequence No")}}
+			return respondWithFailure(message="Duplicate", data = data, status = 422)
+		# else:
+		# 	data = {"GenericCorporateAlertResponse":{"errorCode":"1","errorMessage": "Technical Reject","domainReferenceNo":request_dict.get("Alert Sequence No")}}
+		# 	return respondWithFailure(message="Technical Reject", data = data, status = 400)
+	
+        # utils.validator.validate_http_method("POST")
+
+	except APIException as e:
+		frappe.log_error()
+		return e.respond()

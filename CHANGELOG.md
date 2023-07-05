@@ -2,6 +2,12 @@
 
 ### Added
 
+## [v1.0.2-uat] - 2023-07-05
+
+- [ Credit card MIS report fiexes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/4)
+
+### Added
+
 ## [v1.0.1] - 2023-06-29
 ## [v1.0.1-uat] - 2023-06-28
 

@@ -299,7 +299,7 @@ def reminders_at_nine():
     frappe.sendmail(subject="MIS Report - Bank Payment", content=msg_today, recipients = '{},{},{},{},{}'.format("dipen.bhanushali@1finance.co.in","mohan@1finance.co.in","accounts@1finance.co.in","dilip.jaiswar@1finance.co.in","harish.tanwar@atriina.com"))
     
     ## Credit Card MIS
-    journal_entry_name_credit_card = frappe.db.sql("""select p.name,p.cheque_date,p.approver,p.user_remark from `tabJournal Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.docstatus = 1 and p.voucher_type = 'Journal Entry' and p.in_credit_card_mis = 1 """)
+    journal_entry_name_credit_card = frappe.db.sql("""select p.name,p.cheque_date,p.approver,p.user_remark from `tabJournal Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.docstatus = 1 and p.in_credit_card_mis = 1 """)
     journal_entry_without_approvals_credit_card = []
     journal_entry_amount_list_credit_card = []
     approver_2_credit_card = []

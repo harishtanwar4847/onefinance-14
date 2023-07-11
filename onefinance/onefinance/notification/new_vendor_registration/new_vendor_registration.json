@@ -1,6 +1,7 @@
 {
  "attach_print": 0,
  "channel": "Email",
+ "condition": "",
  "creation": "2023-01-19 12:16:55.485932",
  "days_in_advance": 0,
  "docstatus": 0,
@@ -11,14 +12,15 @@
  "idx": 0,
  "is_standard": 1,
  "message": "Hello,<br><br>\nA New Vendor has registered himself through the vendor registration form link. Kindly, check and take appropriate action against it.<br><br>\nName : {{doc.company_name}}<br>\nContact no. : {{doc.mobile_number}}",
- "modified": "2023-01-21 14:12:38.427816",
+ "modified": "2023-07-10 18:15:22.216193",
  "modified_by": "Administrator",
  "module": "OneFinance",
  "name": "New Vendor Registration",
  "owner": "Administrator",
  "recipients": [
   {
-   "receiver_by_role": "Accounts Manager"
+   "cc": "dilip.jaiswar@1finance.co.in\naccounts@1finance.co.in",
+   "receiver_by_document_field": "notify_email_id"
   }
  ],
  "send_system_notification": 0,

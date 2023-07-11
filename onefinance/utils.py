@@ -12,6 +12,8 @@ def on_update_purchase_invoice(doc, method):
     res = []
     [res.append(x) for x in po_list if x[0] != None]
     print(res)
+    res = list(set(res))
+    print(res)
     if res:
         doc.set("pre_approved_items", [])
         for i in res:
@@ -132,7 +134,7 @@ def on_submit_journal(doc,method):
 
 def on_update_vendor(doc, method):
     if doc.workflow_state == "Vendor Created":
-        supp = frappe.get_doc({"doctype": "Supplier", "supplier_name": doc.company_name, "supplier_group": "All Supplier Groups", "gst_category": doc.gst_status, "pan": doc.pan_number, "msme_number": doc.vendor_status_on_msme_if_yes_mention_msme_no, "country": doc.country, "website": doc.website})
+        supp = frappe.get_doc({"doctype": "Supplier", "supplier_name": doc.company_name, "supplier_group": "All Supplier Groups", "gst_category": doc.gst_status, "gstin": doc.gst_number, "pan": doc.pan_number, "msme_number": doc.vendor_status_on_msme_if_yes_mention_msme_no, "country": doc.country, "website": doc.website})
         supp.insert(ignore_permissions=True)
 
         add = frappe.new_doc("Address")
@@ -145,6 +147,7 @@ def on_update_vendor(doc, method):
         add.pincode = doc.postal_code
         add.email_id = doc.email_address
         add.phone = doc.landline_number
+        add.gst_category = doc.gst_status
         add.gstin = doc.gst_number
         add.append('links', {
             'link_doctype': 'Supplier',

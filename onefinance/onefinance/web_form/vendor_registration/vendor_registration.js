@@ -13,12 +13,12 @@ frappe.ready(function () {
 	// 	}, 500)
 	// },
 
-	frappe.web_form.on('gst_status', (field, value) => {
-		params = "Declaration of GST Non-Enrollment <br><br>Sub: Declaration regarding non-requirement to be registered and/or not applicable under the Central / State/ UT/ Integrated Goods and Services Tax Act, 2017 <br><br>I/We do hereby state that I/We am/are not liable to registration under the provisions of Goods and Service Tax Act as (please 🗹 and fill below for the relevant reason) <br><br>I/We deal in to the category of goods or services ………. (Nature of goods / services) which are exempted under the Goods and Service Tax Act, 2017 <br><br>I/We have the turnover below the taxable limit as specified under the Goods and Services Tax Act, 2017 <br><br>I/We are yet to register ourselves under the Goods and Service Tax Act, 2017 I/We declare that as soon as our value of turnover exceeds Rs. 20 Lacs or during any financial year <br><br>I/we decide or require or become liable to register under the GST, I/we undertake to provide all the requisite documents and information to you. I/We shall get ourselves registered with the Goods and Services Tax department and give our GSTN to your company. <br><br>I/We request you to consider this communication as a declaration for not requiring to be registered under the Goods and Service Tax Act, 2017. <br><br>I/We hereby also confirm that 1 Finance Private Limited shall not be liable for any loss accrued to me/us, due to any registration default with the GST."
-		if (value == "Unregistered") {
-			frappe.web_form.set_value("declaration_of_gst_non_enrollment", params)
-		}
-	});
+	// frappe.web_form.on('gst_status', (field, value) => {
+	// 	params = "Declaration of GST Non-Enrollment <br><br>Sub: Declaration regarding non-requirement to be registered and/or not applicable under the Central / State/ UT/ Integrated Goods and Services Tax Act, 2017 <br><br>I/We do hereby state that I/We am/are not liable to registration under the provisions of Goods and Service Tax Act as (please 🗹 and fill below for the relevant reason) <br><br>I/We deal in to the category of goods or services ………. (Nature of goods / services) which are exempted under the Goods and Service Tax Act, 2017 <br><br>I/We have the turnover below the taxable limit as specified under the Goods and Services Tax Act, 2017 <br><br>I/We are yet to register ourselves under the Goods and Service Tax Act, 2017 I/We declare that as soon as our value of turnover exceeds Rs. 20 Lacs or during any financial year <br><br>I/we decide or require or become liable to register under the GST, I/we undertake to provide all the requisite documents and information to you. I/We shall get ourselves registered with the Goods and Services Tax department and give our GSTN to your company. <br><br>I/We request you to consider this communication as a declaration for not requiring to be registered under the Goods and Service Tax Act, 2017. <br><br>I/We hereby also confirm that 1 Finance Private Limited shall not be liable for any loss accrued to me/us, due to any registration default with the GST."
+	// 	if (value == "Unregistered") {
+	// 		frappe.web_form.set_value("declaration_of_gst_non_enrollment", params)
+	// 	}
+	// });
 
 	frappe.web_form.validate_section = () => {
 		//After load Working Perfectly In Desk Client Script.

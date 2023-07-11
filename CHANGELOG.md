@@ -4,7 +4,7 @@
 
 ## [v1.0.3-uat] - 2023-07-11
 
-- [ New Vendor module fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/)
+- [ New Vendor module fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/6)
 
 
 ### Added

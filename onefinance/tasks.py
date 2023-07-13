@@ -366,7 +366,7 @@ def create_payment_entry(doc, method):
                             is_supplier = frappe.db.get_value("Supplier", {"name": pi_supplier}, "name")
                             pi_docstatus = frappe.db.get_value("Purchase Invoice", {"name": i[7]}, "docstatus")
                             pi_amount = frappe.db.get_value("Purchase Invoice", {"name": i[7]}, "outstanding_amount")
-                            if is_supplier and pi_docstatus == 1:
+                            if is_supplier and pi_docstatus == 1 and pi_amount > 0:
                                 pe = frappe.new_doc("Payment Entry")
                                 pe.posting_date = datetime.strptime(datetime.strptime(i[5], "%d/%m/%Y").strftime("%d-%m-%Y"), '%d-%m-%Y')
                                 pe.payment_type = "Pay"
@@ -396,7 +396,8 @@ def create_payment_entry(doc, method):
                             po_docstatus = frappe.db.get_value("Purchase Order", {"name": i[7]}, "docstatus")
                             po_amount = frappe.db.get_value("Purchase Order", {"name": i[7]}, "rounded_total")
                             po_advance_paid = frappe.db.get_value("Purchase Order", {"name": i[7]}, "advance_paid")
-                            if is_supplier and po_docstatus ==1:
+                            po_per_billed = frappe.db.get_value("Purchase Order", {"name": i[7]}, "per_billed")
+                            if is_supplier and po_docstatus ==1 and  po_per_billed < 100:
                                 pe = frappe.new_doc("Payment Entry")
                                 pe.posting_date = datetime.strptime(datetime.strptime(i[5], "%d/%m/%Y").strftime("%d-%m-%Y"), '%d-%m-%Y')
                                 pe.payment_type = "Pay"
@@ -432,10 +433,14 @@ def create_payment_entry(doc, method):
                             pi_supplier = frappe.db.get_value("Purchase Invoice", {"name": i[7]}, "supplier")
                             is_pi_supplier = frappe.db.get_value("Supplier", {"name": pi_supplier}, "name")
                             pi_docstatus = frappe.db.get_value("Purchase Invoice", {"name": i[7]}, "docstatus")
+                            pi_amount = frappe.db.get_value("Purchase Invoice", {"name": i[7]}, "outstanding_amount")
                             po_name = frappe.db.get_value("Purchase Order", {"name": i[7]}, "name")
                             po_supplier = frappe.db.get_value("Purchase Order", {"name": i[7]}, "supplier")
                             is_po_supplier = frappe.db.get_value("Supplier", {"name": po_supplier}, "name")
                             po_docstatus = frappe.db.get_value("Purchase Order", {"name": i[7]}, "docstatus")
+                            po_amount = frappe.db.get_value("Purchase Order", {"name": i[7]}, "rounded_total")
+                            po_advance_paid = frappe.db.get_value("Purchase Order", {"name": i[7]}, "advance_paid")
+                            po_per_billed = frappe.db.get_value("Purchase Order", {"name": i[7]}, "per_billed")
                             
                             if "1F/PUR" in i[7]:
                                 if not pi_name:
@@ -446,6 +451,8 @@ def create_payment_entry(doc, method):
                                     i.append("Reason - Purchase Invoice is not submitted")
                                 elif i[11] == "R":
                                     i.append("Reason - This payment is rejected by Bank")
+                                elif pi_amount == 0:
+                                    i.append("Reason - Purchase Invoice is fully paid")
                                 else:
                                     pass
                             
@@ -458,6 +465,8 @@ def create_payment_entry(doc, method):
                                     i.append("Reason - Purchase Order is not submitted")
                                 if i[11] == "R":
                                     i.append("Reason - This payment is rejected by Bank")
+                                elif po_per_billed == 100:
+                                    i.append("Reason - Purchase Order is fully billed")
                                 else:
                                     pass
                             

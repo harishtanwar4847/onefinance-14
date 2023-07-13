@@ -13,12 +13,16 @@ frappe.ready(function () {
 	// 	}, 500)
 	// },
 
-	// frappe.web_form.on('gst_status', (field, value) => {
-	// 	params = "Declaration of GST Non-Enrollment <br><br>Sub: Declaration regarding non-requirement to be registered and/or not applicable under the Central / State/ UT/ Integrated Goods and Services Tax Act, 2017 <br><br>I/We do hereby state that I/We am/are not liable to registration under the provisions of Goods and Service Tax Act as (please 🗹 and fill below for the relevant reason) <br><br>I/We deal in to the category of goods or services ………. (Nature of goods / services) which are exempted under the Goods and Service Tax Act, 2017 <br><br>I/We have the turnover below the taxable limit as specified under the Goods and Services Tax Act, 2017 <br><br>I/We are yet to register ourselves under the Goods and Service Tax Act, 2017 I/We declare that as soon as our value of turnover exceeds Rs. 20 Lacs or during any financial year <br><br>I/we decide or require or become liable to register under the GST, I/we undertake to provide all the requisite documents and information to you. I/We shall get ourselves registered with the Goods and Services Tax department and give our GSTN to your company. <br><br>I/We request you to consider this communication as a declaration for not requiring to be registered under the Goods and Service Tax Act, 2017. <br><br>I/We hereby also confirm that 1 Finance Private Limited shall not be liable for any loss accrued to me/us, due to any registration default with the GST."
-	// 	if (value == "Unregistered") {
-	// 		frappe.web_form.set_value("declaration_of_gst_non_enrollment", params)
-	// 	}
-	// });
+	frappe.web_form.on('gst_status', (field, value) => {
+		sub = "Declaration regarding non-requirement to be registered and/or not applicable under the Central / State/ UT/ Integrated Goods and Services Tax Act, 2017"
+		d = "I/We do hereby state that I/We am/are not liable to registration under the provisions of Goods and Service Tax Act as (please select the below relevant reason)"
+		d4 = "I/We declare that as soon as our value of turnover exceeds Rs. 20 Lacs or during any financial year I/we decide or require or become liable to register under the GST, I/we undertake to provide all the requisite documents and information to you. I/We shall get ourselves registered with the Goods and Services Tax department and give our GSTN to your company.<br><br>I/We request you to consider this communication as a declaration for not requiring to be registered under the Goods and Service Tax Act, 2017.<br><br>I/We hereby also confirm that 1 Finance Private Limited shall not be liable for any loss accrued to me/us, due to any registration default with the GST."
+		if (value == "Unregistered") {
+			frappe.web_form.set_value("sub_declaration", sub)
+			frappe.web_form.set_value("hereby_declare", d)
+			frappe.web_form.set_value("declaration_4", d4)
+		}
+	});
 
 	frappe.web_form.validate_section = () => {
 		//After load Working Perfectly In Desk Client Script.
@@ -87,5 +91,29 @@ frappe.ready(function () {
 		else {
 			return true;
 		}
+	}
+
+
+	frappe.web_form.validate = () => {
+
+		var gst_status = frappe.web_form.get_value('gst_status')
+		var declaration_1 = frappe.web_form.get_value('declaration_1')
+		var declaration_2 = frappe.web_form.get_value('declaration_2')
+		var declaration_3 = frappe.web_form.get_value('declaration_3')
+		
+		if (gst_status == "Unregistered" && !declaration_1 && !declaration_2 && !declaration_3) {
+			console.log(gst_status)
+			frappe.msgprint({
+				title: 'Validation Error',
+				indicator: 'red',
+				message: 'Please select any one of the reasons for unregistered GST'
+			})
+			return false;
+		}
+		else{
+			return true;
+		}
+		
+
 	}
 })

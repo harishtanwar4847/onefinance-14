@@ -25,14 +25,12 @@
   "gst_status",
   "gst_number",
   "gst_registration_copy",
-  "please_select_below",
+  "sub_declaration",
+  "hereby_declare",
   "declaration_1",
   "declaration_2",
   "declaration_3",
   "declaration_4",
-  "declaration_5",
-  "declaration_6",
-  "declaration_7",
   "vendor_status_on_msme_if_yes_mention_msme_no",
   "valid_msme_certificate_if_applicable",
   "bank_account_number",
@@ -219,80 +217,58 @@
    "mandatory_depends_on": "eval:doc.gst_status == \"Registered Regular\";"
   },
   {
-   "default": "0",
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "description": "I/We do hereby state that I/We am/are not liable to registration under the provisions of Goods and Service Tax Act as (please \ud83d\uddf9 and fill below for the relevant reason)",
-   "fieldname": "declaration_1",
-   "fieldtype": "Check",
-   "label": "Declaration 1"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "description": "I/We deal in to the category of goods or services \u2026\u2026\u2026. (Nature of goods / services) which are exempted under the Goods and Service Tax Act, 2017",
-   "fieldname": "declaration_2",
-   "fieldtype": "Check",
-   "label": "Declaration 2"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "description": "I/We have the turnover below the taxable limit as specified under the Goods and Services Tax Act, 2017",
-   "fieldname": "declaration_3",
-   "fieldtype": "Check",
-   "label": "Declaration 3"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "description": "I/We are yet to register ourselves under the Goods and Service Tax Act, 2017 I/We declare that as soon as our value of turnover exceeds Rs. 20 Lacs or during any financial year",
-   "fieldname": "declaration_4",
-   "fieldtype": "Check",
-   "label": "Declaration 4"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "description": "I/we decide or require or become liable to register under the GST, I/we undertake to provide all the requisite documents and information to you. I/We shall get ourselves registered with the Goods and Services Tax department and give our GSTN to your company.",
-   "fieldname": "declaration_5",
-   "fieldtype": "Check",
-   "label": "Declaration 5"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "description": "I/We request you to consider this communication as a declaration for not requiring to be registered under the Goods and Service Tax Act, 2017.",
-   "fieldname": "declaration_6",
-   "fieldtype": "Check",
-   "label": "Declaration 6"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "description": "I/We hereby also confirm that 1 Finance Private Limited shall not be liable for any loss accrued to me/us, due to any registration default with the GST.",
-   "fieldname": "declaration_7",
-   "fieldtype": "Check",
-   "label": "Declaration 7"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "fieldname": "please_select_below",
-   "fieldtype": "Check",
-   "label": "Please select Declaration of GST Non Enrollment below",
-   "read_only": 1
-  },
-  {
    "default": "dipen.bhanushali@1finance.co.in",
    "fieldname": "notify_email_id",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Notify Email ID"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "sub_declaration",
+   "fieldtype": "Small Text",
+   "label": "Sub :",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "hereby_declare",
+   "fieldtype": "Small Text",
+   "label": "Declaration",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_1",
+   "fieldtype": "Check",
+   "label": "I/We deal in to the category of goods or services which are exempted under the Goods and Service Tax Act, 2017"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_2",
+   "fieldtype": "Check",
+   "label": "I/We have the turnover below the taxable limit as specified under the Goods and Services Tax Act, 2017"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_3",
+   "fieldtype": "Check",
+   "label": "I/We are yet to register ourselves under the Goods and Service Tax Act, 2017"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_4",
+   "fieldtype": "Small Text",
+   "label": "Also,",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-10 18:10:38.371808",
+ "modified": "2023-07-13 14:11:59.466116",
  "modified_by": "Administrator",
  "module": "OneFinance",
  "name": "Vendor",

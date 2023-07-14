@@ -112,8 +112,7 @@
   {
    "fieldname": "website",
    "fieldtype": "Data",
-   "label": "Website",
-   "reqd": 1
+   "label": "Website"
   },
   {
    "fieldname": "email_address",
@@ -159,7 +158,7 @@
    "depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";",
    "fieldname": "valid_msme_certificate_if_applicable",
    "fieldtype": "Attach",
-   "label": "Valid MSME Certificate (if applicable)",
+   "label": "Valid MSME Certificate",
    "mandatory_depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";"
   },
   {
@@ -270,7 +269,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-14 11:55:52.148750",
+ "modified": "2023-07-14 12:43:14.038143",
  "modified_by": "Administrator",
  "module": "OneFinance",
  "name": "Vendor",

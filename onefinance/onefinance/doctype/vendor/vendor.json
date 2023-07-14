@@ -19,9 +19,9 @@
   "mobile_number",
   "website",
   "email_address",
+  "column_break_15",
   "pan_number",
   "pan_card_copy",
-  "column_break_15",
   "gst_status",
   "gst_number",
   "gst_registration_copy",
@@ -31,10 +31,10 @@
   "declaration_2",
   "declaration_3",
   "declaration_4",
+  "vendor_status_on_msme_yesno",
   "vendor_status_on_msme_if_yes_mention_msme_no",
   "valid_msme_certificate_if_applicable",
   "bank_account_number",
-  "account_type",
   "bank_name",
   "ifsc_code",
   "beneficiary_name",
@@ -70,7 +70,7 @@
    "fieldname": "state",
    "fieldtype": "Select",
    "label": "State",
-   "options": "\nAndaman and Nicobar Islands\nAndhra Pradesh\nArunachal Pradesh\nAssam\nBihar\nChandigarh\nChhattisgarh\nDadra and Nagar Haveli and Daman and Diu\nDelhi\nGoa\nGujarat\nHaryana\nHimachal Pradesh\nJammu and Kashmir\nJharkhand\nKarnataka\nKerala\nLadakh\nLakshadweep Islands\nMadhya Pradesh\nMaharashtra\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nOther Territory\nPondicherry\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttar Pradesh\nUttarakhand\nWest Bengal",
+   "options": "\nAndaman and Nicobar Islands\nAndhra Pradesh\nArunachal Pradesh\nAssam\nBihar\nChandigarh\nChhattisgarh\nDadra and Nagar Haveli and Daman and Diu\nDelhi\nGoa\nGujarat\nHaryana\nHimachal Pradesh\nJammu and Kashmir\nJharkhand\nKarnataka\nKerala\nLadakh\nLakshadweep Islands\nMadhya Pradesh\nMaharashtra\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nOther Territory\nPuducherry\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttar Pradesh\nUttarakhand\nWest Bengal",
    "reqd": 1
   },
   {
@@ -124,14 +124,12 @@
   {
    "fieldname": "pan_number",
    "fieldtype": "Data",
-   "label": "Pan Number",
-   "reqd": 1
+   "label": "Pan Number"
   },
   {
    "fieldname": "pan_card_copy",
    "fieldtype": "Attach",
-   "label": "Pan Card Copy",
-   "reqd": 1
+   "label": "Pan Card Copy"
   },
   {
    "fieldname": "column_break_15",
@@ -151,25 +149,23 @@
    "mandatory_depends_on": "eval:doc.gst_status == \"Registered Regular\";"
   },
   {
+   "depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";",
    "fieldname": "vendor_status_on_msme_if_yes_mention_msme_no",
    "fieldtype": "Data",
-   "label": "Vendor status on MSME (If Yes Mention MSME No. else Mention No)"
+   "label": "Enter MSME No",
+   "mandatory_depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";"
   },
   {
+   "depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";",
    "fieldname": "valid_msme_certificate_if_applicable",
    "fieldtype": "Attach",
-   "label": "Valid MSME Certificate (if applicable)"
+   "label": "Valid MSME Certificate (if applicable)",
+   "mandatory_depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";"
   },
   {
    "fieldname": "bank_account_number",
    "fieldtype": "Data",
    "label": "Bank Account Number"
-  },
-  {
-   "fieldname": "account_type",
-   "fieldtype": "Link",
-   "label": "Account Type",
-   "options": "Bank Account Type"
   },
   {
    "fieldname": "bank_name",
@@ -264,11 +260,17 @@
    "fieldtype": "Small Text",
    "label": "Also,",
    "read_only": 1
+  },
+  {
+   "fieldname": "vendor_status_on_msme_yesno",
+   "fieldtype": "Select",
+   "label": "Vendor status on MSME (Yes/No)",
+   "options": "\nYes\nNo"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-13 14:11:59.466116",
+ "modified": "2023-07-14 11:55:52.148750",
  "modified_by": "Administrator",
  "module": "OneFinance",
  "name": "Vendor",

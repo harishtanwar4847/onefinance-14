@@ -2,6 +2,12 @@
 
 ### Added
 
+## [v1.0.5-uat] - 2023-07-14
+
+- [ Vendor Non GST enrollment template fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/8)
+
+### Added
+
 ## [v1.0.4-uat] - 2023-07-13
 
 - [ Vendor Non GST enrollment template fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/7)

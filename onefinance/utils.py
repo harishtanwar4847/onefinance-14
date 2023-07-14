@@ -170,15 +170,25 @@ def on_update_vendor(doc, method):
         cont.insert()
 
         bank = frappe.new_doc("Bank Account")
-        bank.bank_account_no = doc.bank_account_number
-        bank.branch_code = doc.ifsc_code
-        bank.bank = doc.bank_name
-        bank.account_name = doc.beneficiary_name
-        bank.party_type = "Supplier"
-        bank.party = doc.company_name
-
-        bank.insert()
-
+        if doc.bank_name != "Other":
+            bank.bank_account_no = doc.bank_account_number
+            bank.branch_code = doc.ifsc_code
+            bank.bank = doc.bank_name
+            bank.account_name = doc.beneficiary_name
+            bank.party_type = "Supplier"
+            bank.party = doc.company_name
+            bank.insert()
+        if doc.bank_name == "Other":
+            new_bank = frappe.new_doc("Bank")
+            new_bank.bank_name = doc.enter_bank_name
+            new_bank.insert()
+            bank.bank_account_no = doc.bank_account_number
+            bank.branch_code = doc.ifsc_code
+            bank.bank = doc.enter_bank_name
+            bank.account_name = doc.beneficiary_name
+            bank.party_type = "Supplier"
+            bank.party = doc.company_name
+            bank.insert()
 
 
         file = frappe.new_doc("File")

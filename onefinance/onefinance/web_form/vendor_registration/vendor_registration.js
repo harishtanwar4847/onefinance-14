@@ -37,7 +37,7 @@ frappe.ready(function () {
 		var mobile_number = frappe.web_form.get_value('mobile_number')
 
 		// (Breaks the execution of next button(written in desk)so that ui will throw mandatory fields required error)
-		let fields = ['company_name', 'address', 'country', 'state', 'website', 'contact_person_designation', 'contact_person_name']
+		let fields = ['company_name', 'address', 'country', 'state', 'contact_person_designation', 'contact_person_name']
 
 		for (let i = 0; i < fields.length; i++) {
 			if (frappe.web_form.get_value(fields[i]) == "" || frappe.web_form.get_value(fields[i]) == null) {

@@ -171,7 +171,6 @@ def on_update_vendor(doc, method):
 
         bank = frappe.new_doc("Bank Account")
         bank.bank_account_no = doc.bank_account_number
-        bank.account_type = doc.account_type
         bank.branch_code = doc.ifsc_code
         bank.bank = doc.bank_name
         bank.account_name = doc.beneficiary_name

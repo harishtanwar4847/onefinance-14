@@ -36,6 +36,7 @@
   "valid_msme_certificate_if_applicable",
   "bank_account_number",
   "bank_name",
+  "enter_bank_name",
   "ifsc_code",
   "beneficiary_name",
   "cancelled_cheque_leafbank_letter_copy",
@@ -138,7 +139,7 @@
    "fieldname": "gst_status",
    "fieldtype": "Select",
    "label": "GST Status",
-   "options": "\nRegistered Regular\nRegistered Composition\nUnregistered\nSEZ\nOverseas\nUIN Holders"
+   "options": "\nRegistered Regular\nRegistered Composition\nUnregistered"
   },
   {
    "depends_on": "eval:doc.gst_status == \"Registered Regular\";",
@@ -265,11 +266,18 @@
    "fieldtype": "Select",
    "label": "Vendor status on MSME (Yes/No)",
    "options": "\nYes\nNo"
+  },
+  {
+   "depends_on": "eval:doc.bank_name == \"Other\";",
+   "fieldname": "enter_bank_name",
+   "fieldtype": "Data",
+   "label": "Enter Bank Name",
+   "mandatory_depends_on": "eval:doc.bank_name == \"Other\";"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-14 12:43:14.038143",
+ "modified": "2023-07-14 15:37:00.189084",
  "modified_by": "Administrator",
  "module": "OneFinance",
  "name": "Vendor",

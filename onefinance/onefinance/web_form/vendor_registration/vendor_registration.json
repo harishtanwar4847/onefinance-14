@@ -22,7 +22,7 @@
  "list_columns": [],
  "login_required": 0,
  "max_attachment_size": 0,
- "modified": "2023-07-14 12:44:22.238041",
+ "modified": "2023-07-14 15:39:30.014324",
  "modified_by": "Administrator",
  "module": "OneFinance",
  "name": "vendor-registration",
@@ -228,7 +228,7 @@
    "label": "GST Status",
    "max_length": 0,
    "max_value": 0,
-   "options": "\nRegistered Regular\nRegistered Composition\nUnregistered\nSEZ\nOverseas\nUIN Holders",
+   "options": "\nRegistered Regular\nRegistered Composition\nUnregistered",
    "read_only": 0,
    "reqd": 0,
    "show_in_filter": 0
@@ -412,6 +412,20 @@
    "max_length": 0,
    "max_value": 0,
    "options": "Bank",
+   "read_only": 0,
+   "reqd": 0,
+   "show_in_filter": 0
+  },
+  {
+   "allow_read_on_all_link_options": 0,
+   "depends_on": "eval:doc.bank_name == \"Other\";",
+   "fieldname": "enter_bank_name",
+   "fieldtype": "Data",
+   "hidden": 0,
+   "label": "Enter Bank Name",
+   "mandatory_depends_on": "eval:doc.bank_name == \"Other\";",
+   "max_length": 0,
+   "max_value": 0,
    "read_only": 0,
    "reqd": 0,
    "show_in_filter": 0

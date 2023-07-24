@@ -176,7 +176,7 @@ def reminders_at_ten():
                 subject=frappe.render_template(notification.subject, args), message=msg + frappe.render_template(notification.message, args))
 
 
-def reminders_at_nine():
+def reminders_at_six():
     ## Bank MIS
     payment_entries = frappe.db.sql("""select count(name) from `tabPayment Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.workflow_state = 'Submitted'""")
     
@@ -296,7 +296,7 @@ def reminders_at_nine():
     msg3_today+= """</table>"""
     
     msg_today  = msg1_today+msg2_today+msg3_today
-    frappe.sendmail(subject="MIS Report - Bank Payment", content=msg_today, recipients = '{},{},{},{},{}'.format("dipen.bhanushali@1finance.co.in","mohan@1finance.co.in","accounts@1finance.co.in","dilip.jaiswar@1finance.co.in","harish.tanwar@atriina.com"))
+    frappe.sendmail(subject="MIS Report - Bank Payment", content=msg_today, recipients = '{},{},{},{},{},{}'.format("jeet@1finance.co.in", "keval@1finance.co.in","mohan@1finance.co.in","accounts@1finance.co.in","dilip.jaiswar@1finance.co.in","harish.tanwar@atriina.com"))
     
     ## Credit Card MIS
     journal_entry_name_credit_card = frappe.db.sql("""select p.name,p.cheque_date,p.approver,p.user_remark from `tabJournal Entry` p where p.submitted_date = CURDATE() and p.submitted_date = p.amended_from_submitted_date and p.docstatus = 1 and p.in_credit_card_mis = 1 """)
@@ -341,7 +341,7 @@ def reminders_at_nine():
     msg4_today+="<tr><th>Total: </th><th>{}</th><th colspan ='4'></th></tr>".format(total_jornal_entry_amount)
     msg4_today+= """</table>"""
     
-    frappe.sendmail(subject="MIS Report - Credit Card", content=msg4_today, recipients = '{},{},{},{},{}'.format("dipen.bhanushali@1finance.co.in","mohan@1finance.co.in","accounts@1finance.co.in","dilip.jaiswar@1finance.co.in","harish.tanwar@atriina.com"))
+    frappe.sendmail(subject="MIS Report - Credit Card", content=msg4_today, recipients = '{},{},{},{},{},{}'.format("jeet@1finance.co.in", "keval@1finance.co.in","mohan@1finance.co.in","accounts@1finance.co.in","dilip.jaiswar@1finance.co.in","harish.tanwar@atriina.com"))
 
 
 

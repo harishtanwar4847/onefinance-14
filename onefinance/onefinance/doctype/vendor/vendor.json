@@ -7,22 +7,22 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "pan_number",
+  "pan_card_copy",
   "company_name",
-  "address",
+  "city",
   "country",
   "state",
-  "city",
+  "address",
   "postal_code",
   "contact_person_name",
   "contact_person_designation",
-  "landline_number",
   "mobile_number",
-  "website",
   "email_address",
   "column_break_15",
-  "pan_number",
-  "pan_card_copy",
   "gst_status",
+  "gst_registered_composition_number",
+  "gst_registered_composition_copy",
   "gst_number",
   "gst_registration_copy",
   "sub_declaration",
@@ -62,16 +62,14 @@
   },
   {
    "fieldname": "country",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Country",
-   "options": "Country",
    "reqd": 1
   },
   {
    "fieldname": "state",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "label": "State",
-   "options": "\nAndaman and Nicobar Islands\nAndhra Pradesh\nArunachal Pradesh\nAssam\nBihar\nChandigarh\nChhattisgarh\nDadra and Nagar Haveli and Daman and Diu\nDelhi\nGoa\nGujarat\nHaryana\nHimachal Pradesh\nJammu and Kashmir\nJharkhand\nKarnataka\nKerala\nLadakh\nLakshadweep Islands\nMadhya Pradesh\nMaharashtra\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nOther Territory\nPuducherry\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttar Pradesh\nUttarakhand\nWest Bengal",
    "reqd": 1
   },
   {
@@ -100,20 +98,10 @@
    "reqd": 1
   },
   {
-   "fieldname": "landline_number",
-   "fieldtype": "Data",
-   "label": "Landline Number"
-  },
-  {
    "fieldname": "mobile_number",
    "fieldtype": "Data",
    "label": "Mobile Number",
    "reqd": 1
-  },
-  {
-   "fieldname": "website",
-   "fieldtype": "Data",
-   "label": "Website"
   },
   {
    "fieldname": "email_address",
@@ -124,12 +112,14 @@
   {
    "fieldname": "pan_number",
    "fieldtype": "Data",
-   "label": "Pan Number"
+   "label": "Pan Number",
+   "reqd": 1
   },
   {
    "fieldname": "pan_card_copy",
    "fieldtype": "Attach",
-   "label": "Pan Card Copy"
+   "label": "Pan Card Copy",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_15",
@@ -273,11 +263,25 @@
    "fieldtype": "Data",
    "label": "Enter Bank Name",
    "mandatory_depends_on": "eval:doc.bank_name == \"Other\";"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Registered Composition\";",
+   "fieldname": "gst_registered_composition_number",
+   "fieldtype": "Data",
+   "label": "GST Registered Composition Number",
+   "mandatory_depends_on": "eval:doc.gst_status == \"Registered Composition\";"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Registered Composition\";",
+   "fieldname": "gst_registered_composition_copy",
+   "fieldtype": "Attach",
+   "label": "GST Registered Composition Copy",
+   "mandatory_depends_on": "eval:doc.gst_status == \"Registered Composition\";"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-14 15:37:00.189084",
+ "modified": "2023-07-18 17:37:04.319937",
  "modified_by": "Administrator",
  "module": "OneFinance",
  "name": "Vendor",

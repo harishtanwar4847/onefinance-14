@@ -146,7 +146,7 @@ doc_events = {
 
 scheduler_events = {
     "cron":{"30 09 * * *": ["onefinance.tasks.reminders_at_ten"],
-			"00 21 * * *": ["onefinance.tasks.reminders_at_nine"],
+			"00 18 * * *": ["onefinance.tasks.reminders_at_six"],
 			"55 09 * * *": ["onefinance.tasks.reminders_for_contract"]},
 #	"all": [
 #		"onefinance.tasks.all"

@@ -2,6 +2,49 @@
 
 ### Added
 
+## [v1.0.8] - 2023-07-24
+
+- [ Vendor and MIS new fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/14)
+
+### Added
+
+## [v1.0.8-uat] - 2023-07-24
+
+- [ Vendor and MIS new fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/11)
+
+### Added
+
+## [v1.0.7-uat] - 2023-07-14
+
+- [ Vendor new fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/10)
+
+### Added
+
+## [v1.0.6-uat] - 2023-07-14
+
+- [ Vendor new fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/9)
+
+### Added
+
+## [v1.0.5-uat] - 2023-07-14
+
+- [ Vendor Non GST enrollment template fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/8)
+
+### Added
+
+## [v1.0.4-uat] - 2023-07-13
+
+- [ Vendor Non GST enrollment template fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/7)
+
+### Added
+
+## [v1.0.3-uat] - 2023-07-11
+
+- [ New Vendor module fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/6)
+
+
+### Added
+
 ## [v1.0.2] - 2023-07-05
 ## [v1.0.2-uat] - 2023-07-05
 

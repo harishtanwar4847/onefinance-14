@@ -7,36 +7,43 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "pan_number",
+  "pan_card_copy",
   "company_name",
-  "address",
+  "city",
   "country",
   "state",
-  "city",
+  "address",
   "postal_code",
   "contact_person_name",
   "contact_person_designation",
-  "landline_number",
   "mobile_number",
-  "website",
   "email_address",
-  "pan_number",
-  "pan_card_copy",
   "column_break_15",
   "gst_status",
+  "gst_registered_composition_number",
+  "gst_registered_composition_copy",
   "gst_number",
   "gst_registration_copy",
-  "declaration_of_gst_non_enrollment",
+  "sub_declaration",
+  "hereby_declare",
+  "declaration_1",
+  "declaration_2",
+  "declaration_3",
+  "declaration_4",
+  "vendor_status_on_msme_yesno",
   "vendor_status_on_msme_if_yes_mention_msme_no",
   "valid_msme_certificate_if_applicable",
   "bank_account_number",
-  "account_type",
   "bank_name",
+  "enter_bank_name",
   "ifsc_code",
   "beneficiary_name",
   "cancelled_cheque_leafbank_letter_copy",
   "naming_series",
   "otp",
-  "reason_of_rejection"
+  "reason_of_rejection",
+  "notify_email_id"
  ],
  "fields": [
   {
@@ -55,16 +62,14 @@
   },
   {
    "fieldname": "country",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Country",
-   "options": "Country",
    "reqd": 1
   },
   {
    "fieldname": "state",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "label": "State",
-   "options": "\nAndaman and Nicobar Islands\nAndhra Pradesh\nArunachal Pradesh\nAssam\nBihar\nChandigarh\nChhattisgarh\nDadra and Nagar Haveli and Daman and Diu\nDelhi\nGoa\nGujarat\nHaryana\nHimachal Pradesh\nJammu and Kashmir\nJharkhand\nKarnataka\nKerala\nLadakh\nLakshadweep Islands\nMadhya Pradesh\nMaharashtra\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nOther Territory\nPondicherry\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttar Pradesh\nUttarakhand\nWest Bengal",
    "reqd": 1
   },
   {
@@ -93,20 +98,9 @@
    "reqd": 1
   },
   {
-   "fieldname": "landline_number",
-   "fieldtype": "Data",
-   "label": "Landline Number"
-  },
-  {
    "fieldname": "mobile_number",
    "fieldtype": "Data",
    "label": "Mobile Number",
-   "reqd": 1
-  },
-  {
-   "fieldname": "website",
-   "fieldtype": "Data",
-   "label": "Website",
    "reqd": 1
   },
   {
@@ -135,7 +129,7 @@
    "fieldname": "gst_status",
    "fieldtype": "Select",
    "label": "GST Status",
-   "options": "\nRegistered Regular\nRegistered Composition\nUnregistered\nSEZ\nOverseas\nUIN Holders"
+   "options": "\nRegistered Regular\nRegistered Composition\nUnregistered"
   },
   {
    "depends_on": "eval:doc.gst_status == \"Registered Regular\";",
@@ -145,31 +139,23 @@
    "mandatory_depends_on": "eval:doc.gst_status == \"Registered Regular\";"
   },
   {
-   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
-   "fieldname": "declaration_of_gst_non_enrollment",
-   "fieldtype": "Text Editor",
-   "label": "Declaration of GST Non Enrollment"
-  },
-  {
+   "depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";",
    "fieldname": "vendor_status_on_msme_if_yes_mention_msme_no",
    "fieldtype": "Data",
-   "label": "Vendor status on MSME (If Yes Mention MSME No. else Mention No)"
+   "label": "Enter MSME No",
+   "mandatory_depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";"
   },
   {
+   "depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";",
    "fieldname": "valid_msme_certificate_if_applicable",
    "fieldtype": "Attach",
-   "label": "Valid MSME Certificate (if applicable)"
+   "label": "Valid MSME Certificate",
+   "mandatory_depends_on": "eval:doc.vendor_status_on_msme_yesno == \"Yes\";"
   },
   {
    "fieldname": "bank_account_number",
    "fieldtype": "Data",
    "label": "Bank Account Number"
-  },
-  {
-   "fieldname": "account_type",
-   "fieldtype": "Link",
-   "label": "Account Type",
-   "options": "Bank Account Type"
   },
   {
    "fieldname": "bank_name",
@@ -215,11 +201,87 @@
    "fieldtype": "Attach",
    "label": "GST Registration Copy",
    "mandatory_depends_on": "eval:doc.gst_status == \"Registered Regular\";"
+  },
+  {
+   "default": "dipen.bhanushali@1finance.co.in",
+   "fieldname": "notify_email_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Notify Email ID"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "sub_declaration",
+   "fieldtype": "Small Text",
+   "label": "Sub :",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "hereby_declare",
+   "fieldtype": "Small Text",
+   "label": "Declaration",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_1",
+   "fieldtype": "Check",
+   "label": "I/We deal in to the category of goods or services which are exempted under the Goods and Service Tax Act, 2017"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_2",
+   "fieldtype": "Check",
+   "label": "I/We have the turnover below the taxable limit as specified under the Goods and Services Tax Act, 2017"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_3",
+   "fieldtype": "Check",
+   "label": "I/We are yet to register ourselves under the Goods and Service Tax Act, 2017"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Unregistered\";",
+   "fieldname": "declaration_4",
+   "fieldtype": "Small Text",
+   "label": "Also,",
+   "read_only": 1
+  },
+  {
+   "fieldname": "vendor_status_on_msme_yesno",
+   "fieldtype": "Select",
+   "label": "Vendor status on MSME (Yes/No)",
+   "options": "\nYes\nNo"
+  },
+  {
+   "depends_on": "eval:doc.bank_name == \"Other\";",
+   "fieldname": "enter_bank_name",
+   "fieldtype": "Data",
+   "label": "Enter Bank Name",
+   "mandatory_depends_on": "eval:doc.bank_name == \"Other\";"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Registered Composition\";",
+   "fieldname": "gst_registered_composition_number",
+   "fieldtype": "Data",
+   "label": "GST Registered Composition Number",
+   "mandatory_depends_on": "eval:doc.gst_status == \"Registered Composition\";"
+  },
+  {
+   "depends_on": "eval:doc.gst_status == \"Registered Composition\";",
+   "fieldname": "gst_registered_composition_copy",
+   "fieldtype": "Attach",
+   "label": "GST Registered Composition Copy",
+   "mandatory_depends_on": "eval:doc.gst_status == \"Registered Composition\";"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-18 11:46:05.391922",
+ "modified": "2023-07-18 17:37:04.319937",
  "modified_by": "Administrator",
  "module": "OneFinance",
  "name": "Vendor",

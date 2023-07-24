@@ -6,13 +6,11 @@
 
 - [ Vendor and MIS new fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/14)
 
-
 ### Added
 
 ## [v1.0.8-uat] - 2023-07-24
 
 - [ Vendor and MIS new fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/11)
-
 
 ### Added
 

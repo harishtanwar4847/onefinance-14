@@ -2,6 +2,7 @@
 
 ### Added
 
+## [v1.0.9] - 2023-08-10
 ## [v1.0.9-uat] - 2023-08-10
 
 - [ Vendor invitation and MIS new fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/13)

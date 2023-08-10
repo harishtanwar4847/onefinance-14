@@ -211,7 +211,7 @@ def get_data(filters):
 		ba.bank as "Bene Bank Name",
 		ba.branch_name as "Bene Bank Branch Name",
 		ba.beneficiary_email_id as "Beneficiary email id"
-		from `tabPurchase Invoice` p join `tabBank Account` ba on p.supplier = ba.party {conditions} and p.outstanding_amount !=0
+		from `tabPurchase Invoice` p join `tabBank Account` ba on p.supplier = ba.party {conditions} and p.outstanding_amount !=0 and ba.is_default = 1
 		group by p.name
 		union
 		select 
@@ -243,7 +243,7 @@ def get_data(filters):
 		ba.bank as "Bene Bank Name",
 		ba.branch_name as "Bene Bank Branch Name",
 		ba.beneficiary_email_id as "Beneficiary email id"
-		from `tabPurchase Order` p join `tabPayment Schedule` ps on p.name=ps.parent join `tabBank Account` ba on p.supplier = ba.party {conditions} and (p.grand_total - p.advance_paid) !=0 and is_approval_required = 1;
+		from `tabPurchase Order` p join `tabPayment Schedule` ps on p.name=ps.parent join `tabBank Account` ba on p.supplier = ba.party {conditions} and ba.is_default = 1 and (p.grand_total - p.advance_paid) !=0 and is_approval_required = 1;
 		""".format(conditions=get_conditions(filters)),filters)
 
 

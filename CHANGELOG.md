@@ -2,6 +2,13 @@
 
 ### Added
 
+## [v1.1.0-uat] - 2023-10-30
+
+- [ MIS new fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/15)
+
+
+### Added
+
 ## [v1.0.9] - 2023-08-10
 ## [v1.0.9-uat] - 2023-08-10
 

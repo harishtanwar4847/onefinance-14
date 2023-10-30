@@ -39,7 +39,7 @@ frappe.ui.form.on('Purchase Order', {
             frappe.throw("Please remove comma(,) from PO No")
         }
         if (frm.doc.po_no !==undefined && frm.doc.po_no.length >20){
-            frappe.throw("Length of PO No. should not be greater than 20 and should not involve comma(,)")
+            frappe.throw("Length of PO No. should not be greater than 20")
         }
     },
 

@@ -14,6 +14,8 @@ def on_update_purchase_invoice(doc, method):
     print(res)
     res = list(set(res))
     print(res)
+    if frappe.db.exists("Purchase Invoice", {"supplier" : doc.supplier, "bill_no" : doc.bill_no}):
+        frappe.throw("Please provide different Supplier Invoice No as it is already used in <b>" + frappe.get_doc("Purchase Invoice", {"supplier" : doc.supplier, "bill_no" : doc.bill_no}).name + "<b>")
     if res:
         doc.set("pre_approved_items", [])
         for i in res:
@@ -50,6 +52,8 @@ def on_update_purchase_invoice(doc, method):
 
 # On Update Purchase Order # Setting checker field with current session user
 def on_update_purchase_order(doc, method):
+    if frappe.db.exists("Purchase Order", {"supplier" : doc.supplier, "po_no" : doc.po_no}):
+        frappe.throw("Please provide different PO No as it is already used <b>" + frappe.get_doc("Purchase Order", {"supplier" : doc.supplier, "po_no" : doc.po_no}).name + "<b>")
     old_doc = doc.get_doc_before_save()
     if doc.workflow_state == "Approval Pending" and old_doc.workflow_state == "Verification Pending":
         doc.checker = frappe.session.user

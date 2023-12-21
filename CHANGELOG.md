@@ -2,7 +2,7 @@
 
 ### Added
 
-## [v1.1.2-uat] - 2023-12-19
+## [v1.1.2-uat+1] - 2023-12-21
 
 - [ same supplier invoice no and po no validation fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/19)
 

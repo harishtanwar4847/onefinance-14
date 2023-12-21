@@ -2,6 +2,12 @@
 
 ### Added
 
+## [v1.1.2-uat+1] - 2023-12-21
+
+- [ same supplier invoice no and po no validation fixes ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/19)
+
+### Added
+
 ## [v1.1.2-uat] - 2023-12-19
 
 - [ MIS fixes | sales invoice series | same supplier invoice no and po no validation ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/18)

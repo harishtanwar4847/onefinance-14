@@ -2,6 +2,12 @@
 
 ### Added
 
+## [v1.1.3-uat] - 2024-04-01
+
+- [ naming series addition for fiscal year 2024-25 ](https://github.com/atrina-technologies-pvt-ltd/onefinance-14/pull/21)
+
+### Added
+
 ## [v1.1.2] - 2023-12-21
 ## [v1.1.2-uat+1] - 2023-12-21
 
